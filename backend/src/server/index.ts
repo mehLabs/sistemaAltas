@@ -1,14 +1,11 @@
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
 const app: Express = express();
-const port = process.env.PORT;
+const { PORT } = require("../config/globals");
 
 app.get("/", (req: Request, res: Response) => {
   res.send("TS + Express inicializado");
 });
 
-app.listen(port, () => {
-  console.log(`Server listening in port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server listening in port ${PORT}`);
 });
