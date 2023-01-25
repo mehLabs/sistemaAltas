@@ -1,11 +1,9 @@
-import express, { Express, Request, Response } from "express";
-const app: Express = express();
+import app from "./app";
 const { PORT } = require("../config/globals");
+import router from "../routes/router";
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("TS + Express inicializado");
-});
+app.get("/api", router);
 
-app.listen(PORT, () => {
-  console.log(`Server listening in port ${PORT}`);
-});
+app.listen(PORT, () => {});
+
+export default app;

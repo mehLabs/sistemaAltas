@@ -1,8 +1,10 @@
-const supertest = require("supertest");
+import request from "supertest";
+import app from "../server/app";
 
-test("server returns example text", async () => {
-  const expected = 2;
-  const result = 1 + 1;
+describe("Server", () => {
+  test("returns example text", async () => {
+    const result = await request(app).get("/").expect(200);
 
-  expect(result).toStrictEqual(expected);
+    expect(result.status).toStrictEqual(200);
+  });
 });
