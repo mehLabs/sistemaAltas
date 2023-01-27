@@ -25,13 +25,14 @@ exports.editarEmpleado = async (req: Request, res: Response) => {
       .status(400)
       .json({ msg: "No hay objeto Empleado en el cuerpo del mensaje." });
   } else {
-    const {
-      empleado: Empleado,
-      status,
-      error,
-    } = await empleadoService.editarEmpleado(id, newEmpleado);
+    const { empleado, status, error } = await empleadoService.editarEmpleado(
+      id,
+      newEmpleado
+    );
     if (error) {
       res.status(status).json(error);
+    } else {
+      res.status(status).json(empleado);
     }
   }
 };

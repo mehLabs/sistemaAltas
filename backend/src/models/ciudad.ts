@@ -1,4 +1,5 @@
 import {
+  AutoIncrement,
   BelongsTo,
   Column,
   DataType,
@@ -11,7 +12,11 @@ import Direccion from "./direccion";
 
 @Table
 export default class Ciudad extends Model {
+  @AutoIncrement
   @Column({ primaryKey: true, type: DataType.INTEGER })
+  id_ciudad: number;
+
+  @Column({ type: DataType.INTEGER })
   cod_postal: number;
 
   @Column(DataType.STRING)
