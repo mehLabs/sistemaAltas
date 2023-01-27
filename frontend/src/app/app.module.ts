@@ -12,8 +12,8 @@ import { SharedModule } from './modules/shared/shared.module';
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     SharedModule,
   ],
   providers: [],
