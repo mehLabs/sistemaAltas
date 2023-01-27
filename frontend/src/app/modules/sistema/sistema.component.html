@@ -1,1 +1,8 @@
-<p>sistema works!</p>
+<div class="p-4">
+  <h1 class="text-xl">Esta es su lista de empleados:</h1>
+  <ul>
+    <li *ngFor="let empleado of empleadosArray">
+      {{ empleado.nombre }}
+    </li>
+  </ul>
+</div>
