@@ -1,5 +1,6 @@
 import {
   AutoIncrement,
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -20,20 +21,29 @@ export default class Empleado extends Model {
   @Column({ allowNull: false, type: DataType.STRING })
   genero: string;
 
-  @Column({ allowNull: false, type: DataType.BOOLEAN })
+  @Column({ defaultValue: true, type: DataType.BOOLEAN })
   alta: boolean;
 
   @ForeignKey(() => Direccion)
   @Column({ allowNull: false, type: DataType.INTEGER })
   dir_id: number;
 
+  @BelongsTo(() => Direccion)
+  direccion: Direccion;
+
   @ForeignKey(() => Sector)
   @Column({ allowNull: false, type: DataType.INTEGER })
   sector_id: number;
 
+  @BelongsTo(() => Sector)
+  sector: Sector;
+
   @ForeignKey(() => Rol)
   @Column({ allowNull: false, type: DataType.INTEGER })
   rol_id: number;
+
+  @BelongsTo(() => Rol)
+  rol: Rol;
 
   @Column({ allowNull: false, type: DataType.BIGINT })
   telefono: number;

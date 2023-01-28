@@ -2,7 +2,10 @@
   <h1 class="text-xl">Esta es su lista de empleados:</h1>
   <ul>
     <li *ngFor="let empleado of empleadosArray">
-      {{ empleado.nombre }}
+      {{ empleado.nombre }} {{ empleado.apellido }} |
+      {{ genero(empleado.genero) }} | Alta: {{ empleado.fecha_alta | date }} |
+      telefono: {{ empleado.telefono }} | Edad:
+      {{ edad(empleado.fecha_nacimiento) }} | salario ${{ empleado.salario }}
     </li>
   </ul>
 </div>

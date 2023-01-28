@@ -1,6 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { EmpleadoService } from "../../services/index.service";
 const empleadoService = new EmpleadoService();
+
+exports.init = async (req: Request, res: Response, next: NextFunction) => {
+  const { msg } = await empleadoService.init();
+
+  res.write(msg);
+  next();
+};
 
 exports.getEmpleados = async (req: Request, res: Response) => {
   const { empleados, status, error } =
@@ -39,17 +46,13 @@ exports.editarEmpleado = async (req: Request, res: Response) => {
 
 exports.altaEmpleado = async (req: Request, res: Response) => {
   try {
-    const newEmpleado = await empleadoService.altaEmpleado(req.body);
-    if (newEmpleado) {
-      res
-        .status(newEmpleado.status)
-        .json(
-          newEmpleado.status === 200
-            ? newEmpleado.user
-            : { user: newEmpleado.user, msg: newEmpleado.msg }
-        );
+    const { user, error, status, msg } = await empleadoService.altaEmpleado(
+      req.body
+    );
+    if (user) {
+      res.status(status).json(status === 200 ? user : { user: user, msg: msg });
     } else {
-      res.status(500);
+      if (error) res.status(500).json(error);
     }
   } catch (error) {
     res.status(400).json({ empleado: undefined, error: error });

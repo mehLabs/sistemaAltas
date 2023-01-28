@@ -1,16 +1,20 @@
-import { Request, Response } from "express";
-import { ciudadesService } from "../../services/index.service";
-const service = new ciudadesService();
-service.init();
+import { NextFunction, Request, Response } from "express";
+import { CiudadesService } from "../../services/index.service";
+const service = new CiudadesService();
 
 exports.reset = async (req: Request, res: Response) => {
   const { status, msg } = await service.reset();
   res.status(status).json(msg);
 };
 
-exports.init = async (req: Request, res: Response) => {
+exports.init = async (req: Request, res: Response, next: NextFunction) => {
   const { status, msg } = await service.init();
-  res.status(status).json(msg);
+  res.write(msg);
+  next();
+};
+
+exports.selfInit = () => {
+  service.init();
 };
 
 exports.getCiudades = async (req: Request, res: Response) => {
@@ -43,6 +47,7 @@ exports.getCiudadByName = async (req: Request, res: Response) => {
   if (!name) {
     res.status(400).json({ error: "No se proveyó de un nombre." });
   } else {
-    const { ciudad, status } = await service.getCiudadByName(name);
+    const { error, ciudad, status } = await service.getCiudadByName(name);
+    res.status(status).json(error ? error : ciudad);
   }
 };

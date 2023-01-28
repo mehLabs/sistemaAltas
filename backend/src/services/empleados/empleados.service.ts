@@ -1,17 +1,24 @@
-import {
-  DestroyOptions,
-  FindOptions,
-  Identifier,
-  TruncateOptions,
-  ValidationError,
-} from "sequelize";
+import { FindOptions, Identifier, ValidationError } from "sequelize";
 import Empleado from "../../models/empleado";
+import Direccion from "../../models/direccion";
+import Rol from "../../models/rol";
+import Sector from "../../models/sector";
+import path from "path";
+import { readFileSync } from "fs";
+import xlsx, { WorkBook } from "xlsx";
+import Ciudad from "../../models/ciudad";
 
 export default class {
   async getEmpleadoPorId(id: number) {
     try {
       const identifier: Identifier = id;
-      const empleado: Empleado | null = await Empleado.findByPk(identifier);
+      const empleado: Empleado | null = await Empleado.findByPk(identifier, {
+        include: [
+          { model: Direccion, required: false, include: [Ciudad] },
+          Sector,
+          Rol,
+        ],
+      });
       return {
         status: empleado ? 200 : 400,
         empleado: empleado ? empleado : "Empleado no encontrado.",
@@ -22,7 +29,13 @@ export default class {
   }
   async getTodosEmpleados() {
     try {
-      const empleados = await Empleado.findAll();
+      const empleados = await Empleado.findAll({
+        include: [
+          { model: Direccion, required: false, include: [Ciudad] },
+          Sector,
+          Rol,
+        ],
+      });
       return { status: 200, empleados };
     } catch (error) {
       return { status: 500, error };
@@ -115,12 +128,42 @@ export default class {
       }
       return response;
     } catch (error) {
-      console.log(error);
       if (error instanceof ValidationError) {
-        return { status: 400, user: undefined, msg: "Faltan campos." };
+        return {
+          status: 400,
+          user: undefined,
+          msg: `Faltan estos campos: ${error.errors
+            .map((errorMsg) => errorMsg.path)
+            .join(", ")}.`,
+        };
       } else {
-        return { status: 500, user: undefined };
+        return { status: 500, error, user: undefined };
       }
+    }
+  }
+
+  async init(): Promise<{ status: number; msg: string }> {
+    const initialized = await Empleado.findOne({ where: { em_id: 1 } });
+    if (!initialized) {
+      const xlsxPath = path.join(
+        __dirname,
+        "..",
+        "..",
+        "resources",
+        "empleados.xlsx"
+      );
+      const buf = readFileSync(xlsxPath);
+      const workbook: WorkBook = xlsx.read(buf);
+
+      let cod_postales: string[] = workbook.SheetNames;
+      let empleados: any[] = xlsx.utils.sheet_to_json(
+        workbook.Sheets[cod_postales[0]]
+      );
+
+      await Empleado.bulkCreate<Empleado>(empleados);
+      return { status: 200, msg: "Empleados inicializados." };
+    } else {
+      return { status: 400, msg: "Empleados ya inicializados." };
     }
   }
 }

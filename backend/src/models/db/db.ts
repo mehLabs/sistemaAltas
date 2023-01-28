@@ -4,6 +4,7 @@ import Direccion from "../direccion";
 import Empleado from "../empleado";
 import Rol from "../rol";
 import Sector from "../sector";
+import { CiudadesService } from "../../services/index.service";
 
 const sequelize = new Sequelize({
   database: "empleados",
@@ -18,6 +19,9 @@ const sequelize = new Sequelize({
   },
   logging: false,
 });
-sequelize.sync();
+//Si la base de datos es nueva, inicializa la lista de ciudades
+sequelize.sync({ force: true }).then((_seq) => {
+  new CiudadesService().init();
+});
 
 export default sequelize;

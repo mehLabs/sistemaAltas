@@ -15,4 +15,22 @@ export class SistemaComponent implements OnInit {
       .getEmpleados()
       .subscribe((empleados) => (this.empleadosArray = empleados));
   }
+
+  genero(gen: string) {
+    switch (gen) {
+      case 'm':
+        return 'Mujer';
+      case 'h':
+        return 'Hombre';
+      default:
+        return 'No binario';
+    }
+  }
+
+  edad(fecha: Date) {
+    return Math.floor(
+      (new Date().valueOf() - new Date(fecha).valueOf()) /
+        (1000 * 60 * 60 * 24 * 365)
+    );
+  }
 }
