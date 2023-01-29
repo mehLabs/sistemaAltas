@@ -12,6 +12,7 @@ exports.crearSector = async (req: Request, res: Response) => {
 };
 
 exports.init = async (req: Request, res: Response, next: NextFunction) => {
+  Sector.sequelize?.sync({ force: true });
   const { status, msg } = await sectoresService.init();
   res.write(msg);
   next();

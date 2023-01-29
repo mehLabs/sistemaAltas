@@ -53,9 +53,11 @@ const routes = (router: Router) => {
   /* Ciudades ************************ */
   router.get("/ciudades/init", ciudades.init);
   router.get("/ciudades", ciudades.getCiudades);
-  router.get("/ciudades/:cod_postal", ciudades.getCiudadByCP);
+  router.get("/ciudades/postal/:cod_postal", ciudades.getCiudadByCP);
   router.get("/ciudades/id/:id", ciudades.getCiudadByID);
   router.get("/ciudades/name/:name", ciudades.getCiudadByName);
+  router.get("/ciudades/provincia/:provincia", ciudades.getCiudadesByProvincia);
+  router.get("/ciudades/provincias", ciudades.getProvincias);
   /* ********************************** */
 
   /* Direcciones ***************************** */

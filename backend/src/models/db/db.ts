@@ -20,7 +20,7 @@ const sequelize = new Sequelize({
   logging: false,
 });
 //Si la base de datos es nueva, inicializa la lista de ciudades
-sequelize.sync({ force: true }).then((_seq) => {
+sequelize.sync({ force: false }).then((_seq) => {
   new CiudadesService().init();
 });
 

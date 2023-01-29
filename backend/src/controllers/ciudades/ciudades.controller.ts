@@ -51,3 +51,20 @@ exports.getCiudadByName = async (req: Request, res: Response) => {
     res.status(status).json(error ? error : ciudad);
   }
 };
+
+exports.getProvincias = async (req: Request, res: Response) => {
+  const { error, provincias, status } = await service.getProvincias();
+
+  res.status(status).json(error ? error : provincias);
+};
+
+exports.getCiudadesByProvincia = async (req: Request, res: Response) => {
+  const provincia = req.params.provincia;
+  if (!provincia)
+    res.status(400).json({ error: "No se proveyó de una provincia" });
+  const { ciudades, error, status } = await service.getCiudadesByProvincia(
+    provincia
+  );
+
+  res.status(status).json(error ? error : ciudades);
+};

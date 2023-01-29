@@ -3,6 +3,7 @@ import path from "path";
 import { BulkCreateOptions, where } from "sequelize";
 import xlsx, { WorkBook } from "xlsx";
 import Ciudad from "../../models/ciudad";
+import sequelize from "../../models/db/db";
 
 export default class {
   async reset() {
@@ -48,6 +49,37 @@ export default class {
       return { status: 400, ciudad: undefined, error: "Ciudad no encontrada." };
     } catch (error) {
       return { status: 500, ciudad: undefined, error };
+    }
+  }
+
+  async getProvincias() {
+    try {
+      const provincias = await Ciudad.sequelize?.query(
+        'SELECT "provincia_nombre" FROM "Ciudad" GROUP BY "provincia_nombre"'
+      );
+      return {
+        status: provincias ? 200 : 500,
+        provincias: provincias ? provincias[0] : undefined,
+        msg: provincias ? "" : "Hubo un problema...",
+      };
+    } catch (error) {
+      console.log(error);
+      return { status: 500, error: error };
+    }
+  }
+
+  async getCiudadesByProvincia(provincia_nombre: string) {
+    try {
+      const ciudades = await Ciudad.findAll({
+        where: { provincia_nombre: provincia_nombre },
+      });
+      return {
+        status: ciudades ? 200 : 400,
+        ciudades,
+        msg: ciudades ? "ok" : "No existe esa provincia",
+      };
+    } catch (error) {
+      return { status: 500, error };
     }
   }
 
