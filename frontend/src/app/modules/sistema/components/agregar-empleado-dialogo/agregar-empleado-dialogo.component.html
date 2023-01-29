@@ -1,0 +1,60 @@
+<h1 mat-dialog-title>Alta empleado</h1>
+<div mat-dialog-content>
+  <form [formGroup]="nuevoEmpleado" class="flex flex-col min-w-[50vw]">
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" placeholder="Nombre" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Apellido</mat-label>
+      <input matInput formControlName="apellido" placeholder="Apellido" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="telefono" placeholder="Teléfono" />
+    </mat-form-field>
+
+    <mat-label>Sexo</mat-label>
+    <mat-chip-listbox aria-label="Elegir sexo">
+      <mat-chip-option color="primary">Mujer</mat-chip-option>
+      <mat-chip-option color="primary">Hombre</mat-chip-option>
+      <mat-chip-option color="primary"
+        >No me identifico con ninguno de estos</mat-chip-option
+      >
+    </mat-chip-listbox>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="fecha_nacimiento"
+      />
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #picker
+        startView="year"
+        [startAt]="startDate"
+      ></mat-datepicker>
+    </mat-form-field>
+
+    <app-agregar-domicilio></app-agregar-domicilio>
+    <app-agregar-rol></app-agregar-rol>
+    <app-agregar-sector></app-agregar-sector>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Salario</mat-label>
+      <span matPrefix>$</span>
+      <input
+        type="number"
+        matInput
+        formControlName="salario"
+        placeholder="Salario"
+      />
+    </mat-form-field>
+  </form>
+</div>

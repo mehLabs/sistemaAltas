@@ -5,7 +5,15 @@
       {{ empleado.nombre }} {{ empleado.apellido }} |
       {{ genero(empleado.genero) }} | Alta: {{ empleado.fecha_alta | date }} |
       telefono: {{ empleado.telefono }} | Edad:
-      {{ edad(empleado.fecha_nacimiento) }} | salario ${{ empleado.salario }}
+      {{ edad(empleado.fecha_nacimiento) }} | salario ${{ empleado.salario }} |
+      Sector: {{ empleado.sector.sector_nombre }} | rol:
+      {{ empleado.rol.rol_nombre }}
     </li>
   </ul>
+
+  <div class="fixed right-4 bottom-4">
+    <button (click)="abrirDialog()" mat-fab color="primary">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
 </div>

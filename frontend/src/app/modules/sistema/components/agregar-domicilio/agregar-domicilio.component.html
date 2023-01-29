@@ -1,0 +1,44 @@
+<form [formGroup]="nuevoDomicilio" class="flex flex-col">
+  <mat-form-field appearance="fill">
+    <mat-label>Provincia</mat-label>
+    <input
+      type="text"
+      placeholder="Elegí uno"
+      aria-label="Lista de provincias"
+      matInput
+      [formControl]="provincia"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let provincia of provinciasFiltradas | async"
+        [value]="provincia"
+      >
+        {{ provincia }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Ciudad</mat-label>
+    <input
+      type="text"
+      placeholder="Elegí uno"
+      aria-label="Lista de ciudades"
+      matInput
+      [formControl]="ciudad"
+      [matAutocomplete]="ciudadAuto"
+    />
+    <mat-autocomplete
+      #ciudadAuto="matAutocomplete"
+      [displayWith]="getCiudadNombre"
+    >
+      <mat-option
+        *ngFor="let ciudad of ciudadesFiltradas | async"
+        [value]="ciudad"
+      >
+        {{ ciudad.ciudad_nombre }} - CP: {{ ciudad.cod_postal }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

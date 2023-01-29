@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import Empleado from '../models/Empleado';
-
-const backend = 'http://localhost:8000/api';
+import { environment } from '../../../../environments/environments';
+const backend = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root',

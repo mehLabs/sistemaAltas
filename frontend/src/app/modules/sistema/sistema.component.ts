@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import Empleado from './models/Empleado';
 import { EmpleadosService } from './services/empleados.service';
+import { AgregarEmpleadoDialogoComponent } from './components/agregar-empleado-dialogo/agregar-empleado-dialogo.component';
 
 @Component({
   selector: 'app-sistema',
@@ -9,11 +11,16 @@ import { EmpleadosService } from './services/empleados.service';
 })
 export class SistemaComponent implements OnInit {
   empleadosArray: Empleado[] = [];
-  constructor(private empleados: EmpleadosService) {}
+  constructor(private empleados: EmpleadosService, public dialog: MatDialog) {}
+
+  abrirDialog(): void {
+    const dialogRef = this.dialog.open(AgregarEmpleadoDialogoComponent);
+  }
   ngOnInit(): void {
-    this.empleados
-      .getEmpleados()
-      .subscribe((empleados) => (this.empleadosArray = empleados));
+    this.empleados.getEmpleados().subscribe((empleados) => {
+      this.empleadosArray = empleados;
+      console.log(empleados);
+    });
   }
 
   genero(gen: string) {
