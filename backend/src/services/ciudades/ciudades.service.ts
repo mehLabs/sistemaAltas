@@ -1,9 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
-import { BulkCreateOptions, where } from "sequelize";
 import xlsx, { WorkBook } from "xlsx";
 import Ciudad from "../../models/ciudad";
-import sequelize from "../../models/db/db";
 
 export default class {
   async reset() {
