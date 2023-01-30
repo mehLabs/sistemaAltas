@@ -9,6 +9,9 @@
       Sector: {{ empleado.sector.sector_nombre }} | rol:
       {{ empleado.rol.rol_nombre }}
     </li>
+    <li *ngIf="empleadosArray.length === 0">
+      <p>No tiene empleados dados de alta, aún.</p>
+    </li>
   </ul>
 
   <div class="fixed right-4 bottom-4">

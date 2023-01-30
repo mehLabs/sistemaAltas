@@ -1,4 +1,8 @@
-<form [formGroup]="nuevoDomicilio" class="flex flex-col">
+<form
+  [formGroup]="nuevoDomicilio"
+  class="flex flex-col"
+  (ngSubmit)="nuevaDireccion($event)"
+>
   <mat-form-field appearance="fill">
     <mat-label>Provincia</mat-label>
     <input
@@ -41,4 +45,13 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label> Dirección </mat-label>
+    <input matInput formControlName="direccion" />
+  </mat-form-field>
+
+  <button color="primary" type="submit" mat-raised-button matStepperNext>
+    Siguiente
+  </button>
 </form>

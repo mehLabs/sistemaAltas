@@ -7,9 +7,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatStepperModule } from '@angular/material/stepper';
 @NgModule({
   declarations: [],
   imports: [
+    MatStepperModule,
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -20,6 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CommonModule,
   ],
   exports: [
+    MatStepperModule,
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,

@@ -20,5 +20,14 @@ export class AgregarEmpleadoDialogoComponent {
     fecha_alta: new FormControl(new Date()),
   });
 
+  rol_id = { rol_id: null };
+  sector_id = { sector_id: null };
+  dir_id = { sector_id: null };
+
+  ngSubmit(e: Event) {
+    e.preventDefault();
+    console.log(this.nuevoEmpleado.value);
+  }
+
   startDate = new Date(1990, 0, 1);
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import Ciudad from '../../models/Ciudad';
@@ -10,6 +10,8 @@ import { CiudadesService } from '../../services/ciudades.service';
   styleUrls: ['./agregar-domicilio.component.css'],
 })
 export class AgregarDomicilioComponent implements OnInit {
+  @Input() dir_id: any = null;
+
   constructor(private backend: CiudadesService) {}
   provincias: string[] = ['Buenos Aires', 'Río Negro'];
   ciudades: Ciudad[] = [];
@@ -67,6 +69,11 @@ export class AgregarDomicilioComponent implements OnInit {
 
   getCiudadNombre(ciudad: Ciudad) {
     return ciudad.ciudad_nombre;
+  }
+
+  nuevaDireccion(e: Event) {
+    e.preventDefault();
+    this.backend.console.log(this.nuevoDomicilio.value);
   }
 
   provincia: FormControl = new FormControl();
