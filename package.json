@@ -1,0 +1,13 @@
+{
+  "name": "raiz_proyecto",
+  "scripts": {
+    "backend": "cd backend && npm run start",
+    "backend:dev": "cd backend && npm run start:dev",
+    "frontend": "cd frontend && npm run start",
+    "start": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "start:dev": "concurrently \"npm run frontend\" \"npm run backend:dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

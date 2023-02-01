@@ -20,4 +20,13 @@ export class EmpleadosService {
   getEmpleados() {
     return this.empleados.asObservable();
   }
+  nuevoEmpleado(empleado: any) {
+    console.log(empleado);
+    this.http
+      .post<Empleado>(`${backend}/empleados`, empleado)
+      .subscribe((emp) => {
+        console.log(emp);
+        this.empleados.next([...this.empleados.value, emp]);
+      });
+  }
 }

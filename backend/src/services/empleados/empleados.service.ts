@@ -76,9 +76,10 @@ export default class {
         };
       }
       empleado.alta = false;
-      return await empleado.save();
+      const newEmpleado = await empleado.save();
+      return { status: 200, empleado: newEmpleado };
     } catch (error) {
-      return { status: 500, empleado: undefined, msg: error };
+      return { status: 500, empleado: undefined, error: error };
     }
   }
   async altaEmpleado(empleado: Empleado) {

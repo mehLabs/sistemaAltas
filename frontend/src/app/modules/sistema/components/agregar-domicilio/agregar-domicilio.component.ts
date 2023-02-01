@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import Ciudad from '../../models/Ciudad';
+import Direccion from '../../models/Direccion';
 import { CiudadesService } from '../../services/ciudades.service';
 
 @Component({
@@ -73,7 +74,12 @@ export class AgregarDomicilioComponent implements OnInit {
 
   nuevaDireccion(e: Event) {
     e.preventDefault();
-    this.backend.console.log(this.nuevoDomicilio.value);
+
+    this.backend
+      .nuevaDireccion(this.nuevoDomicilio.value)
+      .subscribe((domicilio: Direccion) => {
+        this.dir_id.dir_id = domicilio.dir_id;
+      });
   }
 
   provincia: FormControl = new FormControl();

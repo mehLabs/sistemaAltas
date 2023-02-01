@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { EmpleadosService } from '../../services/empleados.service';
 
 @Component({
   selector: 'app-agregar-empleado-dialogo',
@@ -7,6 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./agregar-empleado-dialogo.component.css'],
 })
 export class AgregarEmpleadoDialogoComponent {
+  constructor(private backend: EmpleadosService) {}
   nuevoEmpleado = new FormGroup({
     nombre: new FormControl(),
     apellido: new FormControl(),
@@ -22,11 +24,11 @@ export class AgregarEmpleadoDialogoComponent {
 
   rol_id = { rol_id: null };
   sector_id = { sector_id: null };
-  dir_id = { sector_id: null };
+  dir_id = { dir_id: null };
 
   ngSubmit(e: Event) {
     e.preventDefault();
-    console.log(this.nuevoEmpleado.value);
+    this.backend.nuevoEmpleado(this.nuevoEmpleado.value);
   }
 
   startDate = new Date(1990, 0, 1);

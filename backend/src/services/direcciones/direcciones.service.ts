@@ -6,6 +6,46 @@ import Direccion from "../../models/direccion";
 
 export default class {
   async reset() {}
+
+  async getDirecciones() {
+    try {
+      const direcciones = await Direccion.findAll();
+      return { status: 200, direcciones };
+    } catch (error) {
+      return { status: 500, error };
+    }
+  }
+  async nuevaDireccion(dir: Direccion) {
+    try {
+      const { ciudad, cod_postal, direccion } = dir;
+      const newDireccion = await Direccion.build({
+        ciudad,
+        cod_postal,
+        direccion,
+      }).save();
+      return {
+        status: newDireccion ? 200 : 400,
+        newDireccion,
+        msg: newDireccion ? "" : "Faltan atributos...",
+      };
+    } catch (error) {
+      return { status: 500, error };
+    }
+  }
+
+  async eliminarDireccion(dir_id: number) {
+    try {
+      const eliminado: number = await Direccion.destroy({
+        where: { dir_id: dir_id },
+      });
+      return {
+        status: eliminado > 0 ? 200 : 400,
+        msg: eliminado ? "Eliminado" : "No encontrado.",
+      };
+    } catch (error) {
+      return { status: 500, error };
+    }
+  }
   async init(): Promise<{ status: number; msg: string }> {
     const initialized = await Direccion.findOne({
       where: { dir_id: 1 },

@@ -2,20 +2,20 @@ import { NextFunction, Request, Response } from "express";
 import { EmpleadoService } from "../../services/index.service";
 const empleadoService = new EmpleadoService();
 
-exports.init = async (req: Request, res: Response, next: NextFunction) => {
+const init = async (req: Request, res: Response, next: NextFunction) => {
   const { msg } = await empleadoService.init();
 
   res.write(msg);
   next();
 };
 
-exports.getEmpleados = async (req: Request, res: Response) => {
+const getEmpleados = async (req: Request, res: Response) => {
   const { empleados, status, error } =
     await empleadoService.getTodosEmpleados();
   res.status(status).json(empleados ? empleados : error);
 };
 
-exports.getEmpleado = async (req: Request, res: Response) => {
+const getEmpleado = async (req: Request, res: Response) => {
   const id = req.body.id;
   const { empleado, status, error } = await empleadoService.getEmpleadoPorId(
     id
@@ -24,7 +24,7 @@ exports.getEmpleado = async (req: Request, res: Response) => {
   res.status(status).json(empleado ? empleado : error);
 };
 
-exports.editarEmpleado = async (req: Request, res: Response) => {
+const editarEmpleado = async (req: Request, res: Response) => {
   const id = req.body.id;
   const newEmpleado = req.body.newEmpleado;
   if (!newEmpleado) {
@@ -44,26 +44,41 @@ exports.editarEmpleado = async (req: Request, res: Response) => {
   }
 };
 
-exports.altaEmpleado = async (req: Request, res: Response) => {
+const bajaEmpleado = async (req: Request, res: Response) => {
+  const id = req.body.id;
+  if (!id) return res.status(400).json({ msg: "FALTA ID!!!!" });
+  const { empleado, error, status } = await empleadoService.bajaEmpleado(id);
+  res.status(status).json(error ? error : empleado);
+};
+
+const altaEmpleado = async (req: Request, res: Response) => {
+  const emp = req.body;
+  console.log(emp);
   try {
     const { user, error, status, msg } = await empleadoService.altaEmpleado(
-      req.body
+      emp
     );
-    if (user) {
-      res.status(status).json(status === 200 ? user : { user: user, msg: msg });
-    } else {
-      if (error) res.status(500).json(error);
-    }
+    res.status(status).json(error ? error : user);
   } catch (error) {
     res.status(400).json({ empleado: undefined, error: error });
   }
 };
 
-exports.resetearEmpleados = async (req: Request, res: Response) => {
+const resetearEmpleados = async (req: Request, res: Response) => {
   try {
     const deleteInfo = await empleadoService.resetear();
     res.status(deleteInfo.status).json(deleteInfo.msg);
   } catch (error) {
     res.status(500).json(error);
   }
+};
+
+export const empleados = {
+  altaEmpleado,
+  bajaEmpleado,
+  editarEmpleado,
+  getEmpleado,
+  getEmpleados,
+  init,
+  resetearEmpleados,
 };

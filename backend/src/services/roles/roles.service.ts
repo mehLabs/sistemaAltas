@@ -17,6 +17,26 @@ export default class {
     }
   }
 
+  async nuevoRol(rol: Rol) {
+    const { rol_nombre } = rol;
+    try {
+      const newRol = await Rol.build({ rol_nombre }).save();
+      return { status: newRol ? 200 : 400, newRol };
+    } catch (error) {
+      return { status: 500, error };
+    }
+  }
+
+  async eliminarRol(rolId: number) {
+    try {
+      let rol = await Rol.findByPk(rolId);
+      rol?.destroy();
+      return { status: rol ? 200 : 400, msg: rol ? "OK" : "No existe el rol" };
+    } catch (error) {
+      return { status: 500, error };
+    }
+  }
+
   async init(): Promise<{ status: number; msg: string }> {
     const initialized = await Rol.findOne({ where: { rol_id: 20 } });
     if (!initialized) {

@@ -1,0 +1,36 @@
+version: "3"
+services:
+  backend:
+    depends_on:
+      - db
+    build: backend
+    ports:
+      - "8000:8000"
+    environment:
+      PSQL_HOST: db
+
+  db:
+    image: "postgres:latest"
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DB: "empleados"
+    ports:
+      - "5432:5432"
+
+  frontend:
+    build: frontend
+    ports:
+      - "4200:4200"
+
+volumes:
+  db: {}
+
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "4200:4200"
+  #   links: -backend

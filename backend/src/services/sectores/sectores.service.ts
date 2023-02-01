@@ -31,6 +31,18 @@ export default class {
     }
   }
 
+  async eliminarSector(id: number) {
+    try {
+      const eliminado = await Sector.destroy({ where: { sector_id: id } });
+      return {
+        status: eliminado > 0 ? 200 : 400,
+        msg: eliminado ? "Eliminado" : "No existe ese sector",
+      };
+    } catch (error) {
+      return { status: 500, error };
+    }
+  }
+
   async getSectores() {
     try {
       const sectores = await Sector.findAll();

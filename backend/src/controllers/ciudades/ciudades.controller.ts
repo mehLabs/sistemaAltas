@@ -2,27 +2,27 @@ import { NextFunction, Request, Response } from "express";
 import { CiudadesService } from "../../services/index.service";
 const service = new CiudadesService();
 
-exports.reset = async (req: Request, res: Response) => {
+const reset = async (req: Request, res: Response) => {
   const { status, msg } = await service.reset();
   res.status(status).json(msg);
 };
 
-exports.init = async (req: Request, res: Response, next: NextFunction) => {
+const init = async (req: Request, res: Response, next: NextFunction) => {
   const { status, msg } = await service.init();
   res.write(msg);
   next();
 };
 
-exports.selfInit = () => {
+const selfInit = () => {
   service.init();
 };
 
-exports.getCiudades = async (req: Request, res: Response) => {
+const getCiudades = async (req: Request, res: Response) => {
   const { ciudades, error, status } = await service.getCiudades();
   res.status(status).json(error ? error : ciudades);
 };
 
-exports.getCiudadByCP = async (req: Request, res: Response) => {
+const getCiudadByCP = async (req: Request, res: Response) => {
   const id = Number.parseInt(req.params.cod_postal);
   if (!id) {
     res.status(400).json({ error: "No se proveyó de un código postal." });
@@ -32,7 +32,7 @@ exports.getCiudadByCP = async (req: Request, res: Response) => {
   }
 };
 
-exports.getCiudadByID = async (req: Request, res: Response) => {
+const getCiudadByID = async (req: Request, res: Response) => {
   const id = Number.parseInt(req.params.id);
   if (!id) {
     res.status(400).json({ error: "No se proveyó de un id." });
@@ -42,7 +42,7 @@ exports.getCiudadByID = async (req: Request, res: Response) => {
   }
 };
 
-exports.getCiudadByName = async (req: Request, res: Response) => {
+const getCiudadByName = async (req: Request, res: Response) => {
   const name = req.params.ciudad;
   if (!name) {
     res.status(400).json({ error: "No se proveyó de un nombre." });
@@ -52,13 +52,13 @@ exports.getCiudadByName = async (req: Request, res: Response) => {
   }
 };
 
-exports.getProvincias = async (req: Request, res: Response) => {
+const getProvincias = async (req: Request, res: Response) => {
   const { error, provincias, status } = await service.getProvincias();
 
   res.status(status).json(error ? error : provincias);
 };
 
-exports.getCiudadesByProvincia = async (req: Request, res: Response) => {
+const getCiudadesByProvincia = async (req: Request, res: Response) => {
   const provincia = req.params.provincia;
   if (!provincia)
     res.status(400).json({ error: "No se proveyó de una provincia" });
@@ -67,4 +67,15 @@ exports.getCiudadesByProvincia = async (req: Request, res: Response) => {
   );
 
   res.status(status).json(error ? error : ciudades);
+};
+
+export const ciudades = {
+  getCiudadByCP,
+  getCiudadByID,
+  getCiudadByName,
+  getCiudades,
+  getCiudadesByProvincia,
+  getProvincias,
+  init,
+  reset,
 };

@@ -1,19 +1,19 @@
 import { Request, Response, Router } from "express";
 import sequelize from "../models/db/db";
-const {
+import {
   empleados,
   ciudades,
   roles,
   sectores,
   direcciones,
-} = require("../controllers/index.controller");
+} from "../controllers/index.controller";
 
 const routes = (router: Router) => {
   router.get("/", (req: Request, res: Response) => {
     res.status(200).json("Server init");
   });
 
-  /* Inicializar base de datos con ejemplos */
+  /* Inicializar base de datos con datos de ejemplos */
   router.post(
     "/init",
     sectores.init,
@@ -39,6 +39,7 @@ const routes = (router: Router) => {
   router.get("/empleados", empleados.getEmpleados);
   router.get("/empleados/id", empleados.getEmpleado);
   router.post("/empleados", empleados.altaEmpleado);
+  router.post("/empleados/baja", empleados.bajaEmpleado);
   router.delete(
     "/reset",
     ciudades.reset,
@@ -62,15 +63,20 @@ const routes = (router: Router) => {
 
   /* Direcciones ***************************** */
   router.post("/direcciones", direcciones.nuevaDireccion);
+  router.get("/direcciones", direcciones.getDirecciones);
+  router.post("/direcciones/eliminar", direcciones.eliminarDireccion);
   /* ****************************************** */
 
   /* Roles ********************************* */
   router.post("/roles", roles.crearRol);
   router.get("/roles", roles.getRoles);
+  router.post("/roles/eliminar", roles.eliminarRol);
   /* *************************************** */
 
   /* Sectores ***************************** */
   router.post("/sectores", sectores.crearSector);
+  router.get("/sectores", sectores.getSectores);
+  router.post("/sectores/eliminar", sectores.eliminarSector);
   /* ************************************** */
 
   return router;

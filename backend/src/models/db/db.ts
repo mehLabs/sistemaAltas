@@ -11,7 +11,8 @@ const sequelize = new Sequelize({
   dialect: "postgres",
   username: "postgres",
   password: "12345",
-  host: "127.0.0.1",
+  host: process.env.PSQL_HOST || "localhost",
+  port: 5432,
   storage: ":memory",
   models: [Empleado, Ciudad, Direccion, Rol, Sector],
   define: {
@@ -21,6 +22,7 @@ const sequelize = new Sequelize({
 });
 //Si la base de datos es nueva, inicializa la lista de ciudades
 sequelize.sync({ force: false }).then((_seq) => {
+  console.log("DB conectada");
   new CiudadesService().init();
 });
 
