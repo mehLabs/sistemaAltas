@@ -51,7 +51,12 @@
     <input matInput formControlName="direccion" />
   </mat-form-field>
 
-  <button color="primary" type="submit" mat-raised-button matStepperNext>
-    Siguiente
-  </button>
+  <button color="primary" type="submit" mat-raised-button>Siguiente</button>
+  <button
+    id="toStep3"
+    class="invisible"
+    type="button"
+    matStepperNext
+    aria-label=""
+  ></button>
 </form>

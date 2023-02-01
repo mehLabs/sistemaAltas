@@ -21,12 +21,16 @@ export class EmpleadosService {
     return this.empleados.asObservable();
   }
   nuevoEmpleado(empleado: any) {
-    console.log(empleado);
     this.http
       .post<Empleado>(`${backend}/empleados`, empleado)
       .subscribe((emp) => {
-        console.log(emp);
-        this.empleados.next([...this.empleados.value, emp]);
+        this.getEmpleadoById(emp.em_id).subscribe((newEmp) => {
+          this.empleados.next([...this.empleados.value, newEmp]);
+        });
       });
+  }
+
+  getEmpleadoById(id: number) {
+    return this.http.get<Empleado>(`${backend}/empleados/id/${id}`);
   }
 }

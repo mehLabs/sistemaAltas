@@ -1,1 +1,16 @@
-<p>agregar-rol works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Rol del empleado:</mat-label>
+  <input
+    type="text"
+    placeholder="Elegí uno"
+    aria-label="Lista de roles"
+    matInput
+    [formControl]="rol"
+    [matAutocomplete]="rolAuto"
+  />
+  <mat-autocomplete #rolAuto="matAutocomplete" [displayWith]="getRolNombre">
+    <mat-option *ngFor="let rol of rolesFiltrados | async" [value]="rol">
+      {{ rol.rol_nombre }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

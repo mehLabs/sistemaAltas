@@ -1,22 +1,30 @@
-<div class="p-4">
-  <h1 class="text-xl">Esta es su lista de empleados:</h1>
-  <ul>
-    <li *ngFor="let empleado of empleadosArray">
-      {{ empleado.nombre }} {{ empleado.apellido }} |
-      {{ genero(empleado.genero) }} | Alta: {{ empleado.fecha_alta | date }} |
-      telefono: {{ empleado.telefono }} | Edad:
-      {{ edad(empleado.fecha_nacimiento) }} | salario ${{ empleado.salario }} |
-      Sector: {{ empleado.sector.sector_nombre }} | rol:
-      {{ empleado.rol.rol_nombre }}
-    </li>
-    <li *ngIf="empleadosArray.length === 0">
-      <p>No tiene empleados dados de alta, aún.</p>
-    </li>
-  </ul>
+<div class="flex flex-col justify-between min-h-[90vh] p-4">
+  <div>
+    <h1 class="text-xl">Esta es su lista de empleados:</h1>
+    <ul>
+      <li *ngFor="let empleado of empleadosArray">
+        {{ empleado.nombre }} {{ empleado.apellido }} |
+        {{ genero(empleado.genero) }} | Alta: {{ empleado.fecha_alta | date }} |
+        telefono: {{ empleado.telefono }} | Edad:
+        {{ edad(empleado.fecha_nacimiento) }} | salario ${{ empleado.salario }}
+        <span *ngIf="empleado.sector">
+          | Sector: {{ empleado.sector.sector_nombre }}
+        </span>
+        | rol:
+        {{ empleado.rol.rol_nombre }}
+      </li>
+      <li *ngIf="empleadosArray.length === 0">
+        <p>No tiene empleados dados de alta, aún.</p>
+      </li>
+    </ul>
 
-  <div class="fixed right-4 bottom-4">
-    <button (click)="abrirDialog()" mat-fab color="primary">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="fixed right-4 bottom-4">
+      <button (click)="abrirDialog()" mat-fab color="primary">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div>
+    <app-server-control></app-server-control>
   </div>
 </div>

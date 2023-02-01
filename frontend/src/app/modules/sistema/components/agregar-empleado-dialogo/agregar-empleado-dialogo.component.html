@@ -1,12 +1,12 @@
 <h1 mat-dialog-title>Alta empleado</h1>
 <div mat-dialog-content>
-  <form
-    [formGroup]="nuevoEmpleado"
-    class="min-w-[50vw]"
-    (ngSubmit)="ngSubmit($event)"
-  >
-    <mat-stepper>
-      <mat-step>
+  <mat-stepper>
+    <mat-step>
+      <form
+        [formGroup]="nuevoEmpleado"
+        class="min-w-[50vw]"
+        (ngSubmit)="setEmpleadoBasic($event)"
+      >
         <div class="flex flex-col">
           <mat-form-field appearance="fill">
             <mat-label>Nombre</mat-label>
@@ -57,28 +57,39 @@
             Siguiente
           </button>
         </div>
-      </mat-step>
+      </form>
+    </mat-step>
 
-      <mat-step>
-        <div class="flex flex-col">
-          <app-agregar-domicilio [dir_id]="{dir_id}"></app-agregar-domicilio>
-        </div>
-      </mat-step>
-      <mat-step>
-        <div class="flex flex-col">
-          <app-agregar-rol></app-agregar-rol>
-          <app-agregar-sector></app-agregar-sector>
-          <button
-            color="primary"
-            type="button"
-            mat-raised-button
-            matStepperNext
-          >
-            Siguiente
-          </button>
-        </div>
-      </mat-step>
-      <mat-step>
+    <mat-step>
+      <div class="flex flex-col">
+        <app-agregar-domicilio
+          (domicilio)="setDomicilio($event)"
+        ></app-agregar-domicilio>
+      </div>
+    </mat-step>
+    <mat-step>
+      <form
+        class="flex flex-col"
+        [formGroup]="roleAndSector"
+        (ngSubmit)="setRolAndSector($event)"
+      >
+        <app-agregar-rol [rol]="rol"></app-agregar-rol>
+        <app-agregar-sector [sector]="sector"></app-agregar-sector>
+
+        <button color="primary" type="submit" mat-raised-button>
+          Siguiente
+        </button>
+        <button
+          id="toStep4"
+          class="invisible"
+          matStepperNext
+          type="button"
+          aria-label=""
+        ></button>
+      </form>
+    </mat-step>
+    <mat-step>
+      <form [formGroup]="salario" (ngSubmit)="setSalarioAndFinish()">
         <div class="flex flex-col">
           <mat-form-field appearance="fill">
             <mat-label>Salario</mat-label>
@@ -95,7 +106,7 @@
             Agregar
           </button>
         </div>
-      </mat-step>
-    </mat-stepper>
-  </form>
+      </form>
+    </mat-step>
+  </mat-stepper>
 </div>

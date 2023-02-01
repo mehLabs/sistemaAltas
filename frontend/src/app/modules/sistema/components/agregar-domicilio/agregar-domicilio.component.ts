@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import Ciudad from '../../models/Ciudad';
@@ -11,7 +11,7 @@ import { CiudadesService } from '../../services/ciudades.service';
   styleUrls: ['./agregar-domicilio.component.css'],
 })
 export class AgregarDomicilioComponent implements OnInit {
-  @Input() dir_id: any = null;
+  @Output() domicilio = new EventEmitter<number>();
 
   constructor(private backend: CiudadesService) {}
   provincias: string[] = ['Buenos Aires', 'Río Negro'];
@@ -74,11 +74,18 @@ export class AgregarDomicilioComponent implements OnInit {
 
   nuevaDireccion(e: Event) {
     e.preventDefault();
+    const selectedCod_pos = this.ciudad.value.cod_postal;
+    const selectedId_ciudad = this.ciudad.value.id_ciudad;
+
+    this.nuevoDomicilio.get('cod_postal')?.setValue(selectedCod_pos);
+    this.nuevoDomicilio.get('id_ciudad')?.setValue(selectedId_ciudad);
 
     this.backend
       .nuevaDireccion(this.nuevoDomicilio.value)
       .subscribe((domicilio: Direccion) => {
-        this.dir_id.dir_id = domicilio.dir_id;
+        this.domicilio.emit(domicilio.dir_id);
+        const next = document.getElementById('toStep3');
+        next?.click();
       });
   }
 

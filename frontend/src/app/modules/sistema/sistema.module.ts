@@ -10,6 +10,7 @@ import { FormsModule } from '../forms/forms.module';
 import { AgregarDomicilioComponent } from './components/agregar-domicilio/agregar-domicilio.component';
 import { AgregarSectorComponent } from './components/agregar-sector/agregar-sector.component';
 import { AgregarRolComponent } from './components/agregar-rol/agregar-rol.component';
+import { ServerControlComponent } from './components/server-control/server-control.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AgregarRolComponent } from './components/agregar-rol/agregar-rol.compon
     AgregarDomicilioComponent,
     AgregarSectorComponent,
     AgregarRolComponent,
+    ServerControlComponent,
   ],
   imports: [
     FormsModule,

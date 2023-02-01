@@ -1,1 +1,19 @@
-<p>agregar-sector works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Sector del empleado:</mat-label>
+  <input
+    type="text"
+    placeholder="Elegí uno"
+    aria-label="Lista de sectores"
+    matInput
+    [formControl]="sector"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="getSectorNombre">
+    <mat-option
+      *ngFor="let sector of sectoresFiltrados | async"
+      [value]="sector"
+    >
+      {{ sector.sector_nombre }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
