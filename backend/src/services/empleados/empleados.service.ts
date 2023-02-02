@@ -30,6 +30,7 @@ export default class {
   async getTodosEmpleados() {
     try {
       const empleados = await Empleado.findAll({
+        where: { alta: true },
         include: [
           { model: Direccion, required: false, include: [Ciudad] },
           Sector,
