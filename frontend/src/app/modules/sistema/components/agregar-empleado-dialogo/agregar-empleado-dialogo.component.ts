@@ -1,45 +1,91 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
+import Empleado from '../../models/Empleado';
 import Rol from '../../models/Rol';
 import Sector from '../../models/Sector';
 import { EmpleadosService } from '../../services/empleados.service';
 import { RolesService } from '../../services/roles.service';
 import { SectoresService } from '../../services/sectores.service';
 
+interface DataEmpleado {
+  empleado: Empleado;
+}
 @Component({
   selector: 'app-agregar-empleado-dialogo',
   templateUrl: './agregar-empleado-dialogo.component.html',
   styleUrls: ['./agregar-empleado-dialogo.component.css'],
 })
 export class AgregarEmpleadoDialogoComponent {
+  edit: boolean = false;
+  em_id: number | undefined;
   constructor(
     public dialogRef: MatDialogRef<AgregarEmpleadoDialogoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DataEmpleado,
     private backend: EmpleadosService,
     private rolService: RolesService,
     private sectoresService: SectoresService
-  ) {}
+  ) {
+    if (data) {
+      this.edit = true;
+      const {
+        em_id,
+        nombre,
+        apellido,
+        genero,
+        dir_id,
+        sector_id,
+        rol_id,
+        telefono,
+        fecha_nacimiento,
+        salario,
+        fecha_alta,
+      } = data.empleado;
+      this.nuevoEmpleado.setValue({
+        nombre,
+        apellido,
+        genero,
+        dir_id,
+        sector_id,
+        rol_id,
+        telefono,
+        fecha_nacimiento,
+        salario,
+        fecha_alta,
+      });
+      this.em_id = em_id;
+    }
+  }
   nuevoEmpleado = new FormGroup({
-    nombre: new FormControl(),
-    apellido: new FormControl(),
-    genero: new FormControl(),
-    dir_id: new FormControl(),
-    sector_id: new FormControl(),
-    rol_id: new FormControl(),
-    telefono: new FormControl(),
-    fecha_nacimiento: new FormControl(),
-    salario: new FormControl(),
+    nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    apellido: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    genero: new FormControl<string | null>(null, [Validators.required]),
+    dir_id: new FormControl<number | null>(null, [Validators.required]),
+    sector_id: new FormControl<number | null>(null, [Validators.required]),
+    rol_id: new FormControl<number | null>(null, [Validators.required]),
+    telefono: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    fecha_nacimiento: new FormControl<any>(null, [Validators.required]),
+    salario: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.max(1000000000),
+    ]),
     fecha_alta: new FormControl(new Date()),
   });
 
   roleAndSector = new FormGroup({
-    rol_id: new FormControl(),
-    sector_id: new FormControl(),
+    rol_id: new FormControl<number | null>(null, [Validators.required]),
+    sector_id: new FormControl<number | null>(null, [Validators.required]),
   });
 
   salario = new FormGroup({
-    salario: new FormControl(),
+    salario: new FormControl<number | null>(null, [Validators.required]),
   });
 
   rol_id = { rol_id: null };
@@ -47,11 +93,30 @@ export class AgregarEmpleadoDialogoComponent {
   dir_id = { dir_id: null };
 
   ngSubmit() {
-    this.backend.nuevoEmpleado(this.nuevoEmpleado.value);
-    this.dialogRef.close();
+    if (this.nuevoEmpleado.valid) {
+      if (!this.edit) {
+        this.backend.nuevoEmpleado(this.nuevoEmpleado.value);
+      } else {
+        this.backend.editarEmpleado(this.nuevoEmpleado.value, this.em_id || 0);
+      }
+      this.dialogRef.close();
+    } else {
+      alert('Faltan campos!!!');
+    }
   }
 
-  setEmpleadoBasic(event: Event) {}
+  setEmpleadoBasic(event: Event) {
+    if (
+      this.nuevoEmpleado.get('nombre')?.valid &&
+      this.nuevoEmpleado.get('apellido')?.valid &&
+      this.nuevoEmpleado.get('genero')?.valid &&
+      this.nuevoEmpleado.get('telefono')?.valid &&
+      this.nuevoEmpleado.get('fecha_nacimiento')?.valid
+    ) {
+      const nextButton = document.getElementById('toStep2');
+      nextButton?.click();
+    }
+  }
   setDomicilio(direccionId: any) {
     this.nuevoEmpleado.get('dir_id')?.setValue(direccionId);
   }
@@ -111,7 +176,7 @@ export class AgregarEmpleadoDialogoComponent {
   }
 
   setSalarioAndFinish() {
-    const salario = this.salario.get('salario')?.value;
+    const salario: number = this.salario.get('salario')?.value || 0;
     this.nuevoEmpleado.get('salario')?.setValue(salario);
     this.ngSubmit();
   }

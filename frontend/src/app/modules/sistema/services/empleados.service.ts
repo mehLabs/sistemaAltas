@@ -17,6 +17,24 @@ export class EmpleadosService {
       .subscribe((empleados: any) => this.empleados.next(empleados));
   }
 
+  eliminarEmpleado(empleado: Empleado) {
+    this.http
+      .post(`${backend}/empleados/baja`, { id: empleado.em_id })
+      .subscribe((inutil) => this.refreshEmpleados());
+  }
+
+  editarEmpleado(empleado: any, id: number | string) {
+    this.http
+      .put(`${backend}/empleados`, { id, newEmpleado: empleado })
+      .subscribe((inutil) => this.refreshEmpleados());
+  }
+
+  refreshEmpleados() {
+    this.http
+      .get(`${backend}/empleados`)
+      .subscribe((empleados: any) => this.empleados.next(empleados));
+  }
+
   getEmpleados() {
     return this.empleados.asObservable();
   }

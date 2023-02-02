@@ -11,6 +11,18 @@ import { AgregarEmpleadoDialogoComponent } from './components/agregar-empleado-d
 })
 export class SistemaComponent implements OnInit {
   empleadosArray: Empleado[] = [];
+  columnasAMostrar = [
+    'nombre',
+    'apellido',
+    'genero',
+    'fecha_alta',
+    'telefono',
+    'edad',
+    'salario',
+    'rol',
+    'sector',
+    'options',
+  ];
   constructor(private empleados: EmpleadosService, public dialog: MatDialog) {}
 
   abrirDialog(): void {
@@ -20,6 +32,15 @@ export class SistemaComponent implements OnInit {
     this.empleados.getEmpleados().subscribe((empleados) => {
       this.empleadosArray = empleados;
       console.log(empleados);
+    });
+  }
+
+  delete(empleado: Empleado) {
+    this.empleados.eliminarEmpleado(empleado);
+  }
+  edit(empleado: Empleado) {
+    const dialogRef = this.dialog.open(AgregarEmpleadoDialogoComponent, {
+      data: { empleado },
     });
   }
 

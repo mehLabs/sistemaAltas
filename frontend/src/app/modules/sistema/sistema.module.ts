@@ -11,6 +11,7 @@ import { AgregarDomicilioComponent } from './components/agregar-domicilio/agrega
 import { AgregarSectorComponent } from './components/agregar-sector/agregar-sector.component';
 import { AgregarRolComponent } from './components/agregar-rol/agregar-rol.component';
 import { ServerControlComponent } from './components/server-control/server-control.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { ServerControlComponent } from './components/server-control/server-contr
   ],
   imports: [
     FormsModule,
-
+    MatTableModule,
     MatDialogModule,
     SharedModule,
     CommonModule,

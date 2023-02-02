@@ -19,7 +19,9 @@ export class AgregarSectorComponent {
     this.backend.getSectores().subscribe((sectores) => {
       this.sectoresFiltrados = this.sector.valueChanges.pipe(
         startWith(''),
-        map((value) => this._filterSector(value || ''))
+        map((value) =>
+          value.length >= 0 ? this._filterSector(value || '') : []
+        )
       );
       this.sectores = sectores;
     });

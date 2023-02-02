@@ -10,7 +10,7 @@ export class ServerControlService {
   constructor(private http: HttpClient) {}
 
   init() {
-    return this.http.post(`${backend}/init`, {});
+    return this.http.post(`${backend}/init`, {}, { observe: 'body' });
   }
 
   reset() {

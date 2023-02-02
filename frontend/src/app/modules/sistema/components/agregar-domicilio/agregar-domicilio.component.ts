@@ -1,5 +1,5 @@
 import { Component, Output, OnInit, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import Ciudad from '../../models/Ciudad';
 import Direccion from '../../models/Direccion';
@@ -17,9 +17,9 @@ export class AgregarDomicilioComponent implements OnInit {
   provincias: string[] = ['Buenos Aires', 'Río Negro'];
   ciudades: Ciudad[] = [];
   nuevoDomicilio = new FormGroup({
-    cod_postal: new FormControl(),
-    id_ciudad: new FormControl(),
-    direccion: new FormControl(),
+    cod_postal: new FormControl<number | null>(null, [Validators.required]),
+    id_ciudad: new FormControl<number | null>(null, [Validators.required]),
+    direccion: new FormControl<string | null>(null, [Validators.required]),
   });
 
   provinciasFiltradas!: Observable<string[]>;
