@@ -9,6 +9,7 @@ const reset = async (req: Request, res: Response) => {
 
 const init = async (req: Request, res: Response, next: NextFunction) => {
   const { status, msg } = await service.init();
+  console.log(msg);
   res.write(msg);
   next();
 };

@@ -13,6 +13,7 @@ const crearRol = async (req: Request, res: Response) => {
 
 const init = async (req: Request, res: Response, next: NextFunction) => {
   const { status, msg } = await rolesService.init();
+  console.log(msg);
   res.write(msg);
   next();
 };
@@ -25,8 +26,8 @@ const getRoles = async (req: Request, res: Response) => {
 const eliminarRol = async (req: Request, res: Response) => {
   const id = req.body.id;
   if (!id) return res.status(200).json({ msg: "Falta id" });
-  const { status, error, msg } = await rolesService.eliminarRol(id);
-  res.status(status).json(error ? error : msg);
+  const { status, msg } = await rolesService.eliminarRol(id);
+  res.status(status).json(msg);
 };
 
 export const roles = { crearRol, eliminarRol, getRoles, init, reset };

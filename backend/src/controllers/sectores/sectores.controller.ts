@@ -12,8 +12,9 @@ const crearSector = async (req: Request, res: Response) => {
 };
 
 const init = async (req: Request, res: Response, next: NextFunction) => {
-  Sector.sequelize?.sync({ force: true });
+  await Sector.sequelize?.sync({ force: true });
   const { status, msg } = await sectoresService.init();
+  console.log(msg);
   res.write(msg);
   next();
 };

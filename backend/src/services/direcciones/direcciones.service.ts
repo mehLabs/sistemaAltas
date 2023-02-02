@@ -5,7 +5,14 @@ import xlsx, { WorkBook } from "xlsx";
 import Direccion from "../../models/direccion";
 
 export default class {
-  async reset() {}
+  async reset() {
+    try {
+      await Direccion.truncate({ cascade: true });
+      return { status: 200, msg: "Direcciones fue eliminado correctamente" };
+    } catch (error) {
+      return { status: 500, msg: error };
+    }
+  }
 
   async getDirecciones() {
     try {
@@ -17,9 +24,10 @@ export default class {
   }
   async nuevaDireccion(dir: Direccion) {
     try {
-      const { ciudad, cod_postal, direccion } = dir;
+      const { id_ciudad, cod_postal, direccion } = dir;
+
       const newDireccion = await Direccion.build({
-        ciudad,
+        id_ciudad,
         cod_postal,
         direccion,
       }).save();
@@ -47,10 +55,9 @@ export default class {
     }
   }
   async init(): Promise<{ status: number; msg: string }> {
-    const initialized = await Direccion.findOne({
-      where: { dir_id: 1 },
-    });
-    if (!initialized) {
+    console.log("init direcciones");
+    const initialized = await Direccion.findAll();
+    if (initialized.length < 1) {
       const xlsxPath = path.join(
         __dirname,
         "..",
@@ -65,6 +72,8 @@ export default class {
       let direcciones: any[] = xlsx.utils.sheet_to_json(
         workbook.Sheets[direccion_nombres[0]]
       );
+      console.log("Direcciones");
+      console.log(direcciones);
 
       await Direccion.bulkCreate<Direccion>(direcciones);
       return { status: 200, msg: "Direcciones inicializadas." };

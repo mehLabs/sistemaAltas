@@ -37,17 +37,10 @@ const routes = (router: Router) => {
 
   /* Empleados ******************* */
   router.get("/empleados", empleados.getEmpleados);
-  router.get("/empleados/id", empleados.getEmpleado);
+  router.get("/empleados/id/:id", empleados.getEmpleado);
   router.post("/empleados", empleados.altaEmpleado);
   router.post("/empleados/baja", empleados.bajaEmpleado);
-  router.delete(
-    "/reset",
-    ciudades.reset,
-    empleados.resetearEmpleados,
-    roles.reset,
-    sectores.reset,
-    direcciones.reset
-  );
+  router.delete("/reset", ciudades.reset);
   router.put("/empleados", empleados.editarEmpleado);
   /* ************************* */
 

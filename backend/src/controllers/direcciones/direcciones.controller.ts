@@ -6,13 +6,9 @@ const direccionesService = new DireccionesService();
 const reset = async (req: Request, res: Response) => {};
 
 const nuevaDireccion = async (req: Request, res: Response) => {
-  try {
-    const direccion = req.body;
-    const newDir = await Direccion.create(direccion);
-    res.status(200).json(newDir);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+  const { status, error, newDireccion, msg } =
+    await direccionesService.nuevaDireccion(req.body);
+  res.status(status).json(error ? error : newDireccion);
 };
 
 const getDirecciones = async (req: Request, res: Response) => {
@@ -30,6 +26,7 @@ const eliminarDireccion = async (req: Request, res: Response) => {
 
 const init = async (req: Request, res: Response, next: NextFunction) => {
   const { msg } = await direccionesService.init();
+  console.log(msg);
 
   res.write(msg);
   next();

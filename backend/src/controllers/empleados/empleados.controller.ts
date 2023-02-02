@@ -4,6 +4,7 @@ const empleadoService = new EmpleadoService();
 
 const init = async (req: Request, res: Response, next: NextFunction) => {
   const { msg } = await empleadoService.init();
+  console.log(msg);
 
   res.write(msg);
   next();
@@ -16,7 +17,7 @@ const getEmpleados = async (req: Request, res: Response) => {
 };
 
 const getEmpleado = async (req: Request, res: Response) => {
-  const id = req.body.id;
+  const id = Number.parseInt(req.params.id);
   const { empleado, status, error } = await empleadoService.getEmpleadoPorId(
     id
   );

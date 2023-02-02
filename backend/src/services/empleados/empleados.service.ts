@@ -58,8 +58,8 @@ export default class {
   }
   async resetear() {
     try {
-      await Empleado.destroy({ where: {}, truncate: true });
-      return { status: 200, msg: "Empleados fue eliminado correctamente" };
+      await Empleado.truncate({ cascade: true });
+      return { status: 200, msg: "Ciudades fue eliminado correctamente" };
     } catch (error) {
       return { status: 500, msg: error };
     }
@@ -144,8 +144,8 @@ export default class {
   }
 
   async init(): Promise<{ status: number; msg: string }> {
-    const initialized = await Empleado.findOne({ where: { em_id: 1 } });
-    if (!initialized) {
+    const initialized = await Empleado.findAll();
+    if (initialized.length < 1) {
       const xlsxPath = path.join(
         __dirname,
         "..",

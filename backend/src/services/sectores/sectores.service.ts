@@ -4,30 +4,43 @@ import xlsx, { WorkBook } from "xlsx";
 import Sector from "../../models/sector";
 
 export default class {
-  async reset() {}
+  async reset() {
+    try {
+      await Sector.truncate({ cascade: true });
+      return { status: 200, msg: "Ciudades fue eliminado correctamente" };
+    } catch (error) {
+      return { status: 500, msg: error };
+    }
+  }
 
-  async init(): Promise<{ status: number; msg: string }> {
-    const initialized = await Sector.findOne({ where: { sector_id: 1 } });
-    if (!initialized) {
-      const xlsxPath = path.join(
-        __dirname,
-        "..",
-        "..",
-        "resources",
-        "sectores.xlsx"
-      );
-      const buf = readFileSync(xlsxPath);
-      const workbook: WorkBook = xlsx.read(buf);
+  async init() {
+    console.log("init Sectores");
+    try {
+      const initialized = await Sector.findAll();
+      if (initialized.length < 1) {
+        const xlsxPath = path.join(
+          __dirname,
+          "..",
+          "..",
+          "resources",
+          "sectores.xlsx"
+        );
+        const buf = readFileSync(xlsxPath);
+        const workbook: WorkBook = xlsx.read(buf);
 
-      let sector_nombres: string[] = workbook.SheetNames;
-      let sectores: any[] = xlsx.utils.sheet_to_json(
-        workbook.Sheets[sector_nombres[0]]
-      );
+        let sector_nombres: string[] = workbook.SheetNames;
+        let sectores: any[] = xlsx.utils.sheet_to_json(
+          workbook.Sheets[sector_nombres[0]]
+        );
 
-      await Sector.bulkCreate<Sector>(sectores);
-      return { status: 200, msg: "sectores inicializadas." };
-    } else {
-      return { status: 400, msg: "sectores ya inicializadas." };
+        await Sector.bulkCreate<Sector>(sectores);
+        return { status: 200, msg: "sectores inicializadas." };
+      } else {
+        return { status: 400, msg: "sectores ya inicializadas." };
+      }
+    } catch (error) {
+      console.log(error);
+      return { status: 500, msg: error };
     }
   }
 

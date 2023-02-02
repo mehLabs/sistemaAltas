@@ -29,17 +29,16 @@ export default class {
 
   async eliminarRol(rolId: number) {
     try {
-      let rol = await Rol.findByPk(rolId);
-      rol?.destroy();
-      return { status: rol ? 200 : 400, msg: rol ? "OK" : "No existe el rol" };
+      await Rol.truncate({ cascade: true });
+      return { status: 200, msg: "Ciudades fue eliminado correctamente" };
     } catch (error) {
-      return { status: 500, error };
+      return { status: 500, msg: error };
     }
   }
 
   async init(): Promise<{ status: number; msg: string }> {
-    const initialized = await Rol.findOne({ where: { rol_id: 20 } });
-    if (!initialized) {
+    const initialized = await Rol.findAll();
+    if (initialized.length < 1) {
       const xlsxPath = path.join(
         __dirname,
         "..",

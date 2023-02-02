@@ -6,7 +6,10 @@ import Ciudad from "../../models/ciudad";
 export default class {
   async reset() {
     try {
-      await Ciudad.destroy({ where: {}, truncate: true });
+      await Ciudad.truncate({ cascade: true });
+
+      await Ciudad.sequelize?.sync({ force: true });
+      await this.init();
       return { status: 200, msg: "Ciudades fue eliminado correctamente" };
     } catch (error) {
       return { status: 500, msg: error };
@@ -82,8 +85,8 @@ export default class {
   }
 
   async init(): Promise<{ status: number; msg: string }> {
-    const initialized = await Ciudad.findOne({ where: { cod_postal: 1000 } });
-    if (!initialized) {
+    const initialized = await Ciudad.findAll();
+    if (initialized.length < 1) {
       const xlsxPath = path.join(
         __dirname,
         "..",
