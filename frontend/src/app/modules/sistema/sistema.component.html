@@ -39,6 +39,15 @@
           {{ empleado.sector.sector_nombre }}
         </td>
       </ng-container>
+      <ng-container matColumnDef="direccion">
+        <th mat-header-cell *matHeaderCellDef>Dirección</th>
+        <td mat-cell *matCellDef="let empleado">
+          {{ empleado.direccion.ciudad.cod_postal }},
+          {{ empleado.direccion.ciudad.ciudad_nombre }},
+          {{ empleado.direccion.ciudad.provincia_nombre }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let empleado">

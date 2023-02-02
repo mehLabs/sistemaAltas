@@ -14,13 +14,14 @@ export class SistemaComponent implements OnInit {
   columnasAMostrar = [
     'nombre',
     'apellido',
-    'genero',
-    'fecha_alta',
     'telefono',
-    'edad',
-    'salario',
+    'genero',
     'rol',
     'sector',
+    'edad',
+    'direccion',
+    'salario',
+    'fecha_alta',
     'options',
   ];
   constructor(private empleados: EmpleadosService, public dialog: MatDialog) {}
