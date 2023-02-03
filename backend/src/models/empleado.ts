@@ -62,4 +62,7 @@ export default class Empleado extends Model {
 
   @Column({ allowNull: false, type: DataType.DATE })
   fecha_alta: Date;
+
+  @Column({ defaultValue: "No tiene", type: DataType.TEXT("long") })
+  descripcion: string;
 }

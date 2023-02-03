@@ -22,6 +22,7 @@ export class SistemaComponent implements OnInit {
     'direccion',
     'salario',
     'fecha_alta',
+    'descripcion',
     'options',
   ];
   constructor(private empleados: EmpleadosService, public dialog: MatDialog) {}

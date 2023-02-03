@@ -40,7 +40,7 @@ const editarEmpleado = async (req: Request, res: Response) => {
     if (error) {
       res.status(status).json(error);
     } else {
-      res.status(status).json(empleado);
+      res.status(status).json(empleado || [].length > 0 ? true : false);
     }
   }
 };
@@ -54,14 +54,13 @@ const bajaEmpleado = async (req: Request, res: Response) => {
 
 const altaEmpleado = async (req: Request, res: Response) => {
   const emp = req.body;
-  console.log(emp);
   try {
     const { user, error, status, msg } = await empleadoService.altaEmpleado(
       emp
     );
-    res.status(status).json(error ? error : user);
+    res.status(status).json(msg ? msg : user);
   } catch (error) {
-    res.status(400).json({ empleado: undefined, error: error });
+    res.status(500).json({ empleado: undefined, error: error });
   }
 };
 

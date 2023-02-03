@@ -40,9 +40,9 @@ const routes = (router: Router) => {
   router.get("/empleados/id/:id", empleados.getEmpleado);
   router.post("/empleados", empleados.altaEmpleado);
   router.post("/empleados/baja", empleados.bajaEmpleado);
-  router.delete("/reset", ciudades.reset);
   router.put("/empleados", empleados.editarEmpleado);
   /* ************************* */
+  router.delete("/reset", ciudades.reset);
 
   /* Ciudades ************************ */
   router.get("/ciudades/init", ciudades.init);

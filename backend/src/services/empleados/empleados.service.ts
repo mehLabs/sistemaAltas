@@ -95,9 +95,8 @@ export default class {
         apellido,
         fecha_nacimiento,
         salario,
+        descripcion,
         fecha_alta,
-        createdAt,
-        updatedAt,
       } = empleado;
       let task = Empleado.build({
         alta: true,
@@ -110,9 +109,8 @@ export default class {
         apellido,
         fecha_nacimiento,
         salario,
+        descripcion,
         fecha_alta,
-        createdAt,
-        updatedAt,
       });
 
       const newEmpleado = await task.save();
@@ -130,6 +128,8 @@ export default class {
       }
       return response;
     } catch (error) {
+      console.log("ERROR");
+      console.log(error);
       if (error instanceof ValidationError) {
         return {
           status: 400,

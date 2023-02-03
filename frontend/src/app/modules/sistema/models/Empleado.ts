@@ -12,6 +12,8 @@ export default interface Empleado {
   dir_id: number;
   direccion: Direccion;
 
+  descripcion: string;
+
   sector_id: number;
   sector: Sector;
 

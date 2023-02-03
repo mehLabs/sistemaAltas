@@ -41,6 +41,7 @@ export class AgregarEmpleadoDialogoComponent {
         fecha_nacimiento,
         salario,
         fecha_alta,
+        descripcion,
       } = data.empleado;
       this.nuevoEmpleado.setValue({
         nombre,
@@ -53,6 +54,7 @@ export class AgregarEmpleadoDialogoComponent {
         fecha_nacimiento,
         salario,
         fecha_alta,
+        descripcion,
       });
       this.em_id = em_id;
     }
@@ -77,6 +79,10 @@ export class AgregarEmpleadoDialogoComponent {
       Validators.max(1000000000),
     ]),
     fecha_alta: new FormControl(new Date()),
+    descripcion: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.minLength(2),
+    ]),
   });
 
   roleAndSector = new FormGroup({
@@ -86,6 +92,10 @@ export class AgregarEmpleadoDialogoComponent {
 
   salario = new FormGroup({
     salario: new FormControl<number | null>(null, [Validators.required]),
+    descripcion: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.minLength(2),
+    ]),
   });
 
   rol_id = { rol_id: null };
@@ -178,6 +188,10 @@ export class AgregarEmpleadoDialogoComponent {
   setSalarioAndFinish() {
     const salario: number = this.salario.get('salario')?.value || 0;
     this.nuevoEmpleado.get('salario')?.setValue(salario);
+
+    const descripcion: string =
+      this.salario.get('descripcion')?.value || 'No posee';
+    this.nuevoEmpleado.get('descripcion')?.setValue(descripcion);
     this.ngSubmit();
   }
   rol = new FormControl<any | string>('');
