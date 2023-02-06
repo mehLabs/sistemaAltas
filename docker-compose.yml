@@ -3,11 +3,13 @@ services:
   backend:
     depends_on:
       - db
+      - db-test
     build: backend
     ports:
       - "8000:8000"
     environment:
       PSQL_HOST: db
+      PSQL_TEST_HOST: db-test
 
   db:
     image: "postgres:latest"
@@ -21,6 +23,18 @@ services:
     ports:
       - "5432:5432"
 
+  db-test:
+    image: "postgres:latest"
+    restart: always
+    volumes:
+      - db-test:/var/lib/postgresql/
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DB: "empleados"
+    ports:
+      - "5433:5432"
+
   frontend:
     build: frontend
     ports:
@@ -28,6 +42,7 @@ services:
 
 volumes:
   db: {}
+  db-test: {}
 
   # frontend:
   #   build: ./frontend
