@@ -5,7 +5,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM node:12-alpine AS server
+FROM node:18 AS server
 WORKDIR /app/backend
 COPY package* ./
 RUN npm install --production

@@ -7,8 +7,9 @@ export default class {
   async reset() {
     try {
       await Ciudad.truncate({ cascade: true });
-
-      await Ciudad.sequelize?.sync({ force: true });
+      if (Ciudad.sequelize) {
+        await Ciudad.sequelize.sync({ force: true });
+      }
       await this.init();
       return { status: 200, msg: "Ciudades fue eliminado correctamente" };
     } catch (error) {
@@ -55,14 +56,19 @@ export default class {
 
   async getProvincias() {
     try {
-      const provincias = await Ciudad.sequelize?.query(
-        'SELECT "provincia_nombre" FROM "Ciudad" GROUP BY "provincia_nombre"'
-      );
-      return {
-        status: provincias ? 200 : 500,
-        provincias: provincias ? provincias[0] : undefined,
-        msg: provincias ? "" : "Hubo un problema...",
-      };
+      if (Ciudad.sequelize) {
+        const provincias = await Ciudad.sequelize?.query(
+          'SELECT "provincia_nombre" FROM "Ciudad" GROUP BY "provincia_nombre"'
+        );
+
+        return {
+          status: provincias ? 200 : 500,
+          provincias: provincias ? provincias[0] : undefined,
+          msg: provincias ? "" : "Hubo un problema...",
+        };
+      } else {
+        return { status: 500 };
+      }
     } catch (error) {
       console.log(error);
       return { status: 500, error: error };
