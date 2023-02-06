@@ -17,8 +17,9 @@ export default class {
     }
   }
 
-  async nuevoRol(rol: Rol) {
+  async nuevoRol(rol: any) {
     const { rol_nombre } = rol;
+    if (!rol_nombre) return { status: 400, newRol: undefined };
     try {
       const newRol = await Rol.build({ rol_nombre }).save();
       return { status: newRol ? 200 : 400, newRol };
@@ -27,10 +28,18 @@ export default class {
     }
   }
 
+  crearRol = this.nuevoRol;
+
   async eliminarRol(rolId: number) {
     try {
-      await Rol.truncate({ cascade: true });
-      return { status: 200, msg: "Ciudades fue eliminado correctamente" };
+      const eliminados = await Rol.destroy({ where: { rol_id: rolId } });
+      return {
+        status: eliminados > 0 ? 200 : 400,
+        msg:
+          "Ciudades" + (eliminados > 0)
+            ? " "
+            : "no" + " fue eliminado correctamente",
+      };
     } catch (error) {
       return { status: 500, msg: error };
     }

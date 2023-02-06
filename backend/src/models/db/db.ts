@@ -22,7 +22,6 @@ const sequelize = new Sequelize({
 });
 //Si la base de datos es nueva, inicializa la lista de ciudades
 sequelize.sync({ force: false }).then((_seq) => {
-  console.log("DB conectada");
   new CiudadesService().init();
 });
 

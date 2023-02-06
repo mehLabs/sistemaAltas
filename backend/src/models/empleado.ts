@@ -16,53 +16,53 @@ import Sector from "./sector";
 export default class Empleado extends Model {
   @AutoIncrement
   @Column({ primaryKey: true, type: DataType.INTEGER })
-  em_id: number;
+  declare em_id: number;
 
   @Column({ allowNull: false, type: DataType.STRING })
-  genero: string;
+  declare genero: string;
 
   @Column({ defaultValue: true, type: DataType.BOOLEAN })
-  alta: boolean;
+  declare alta: boolean;
 
   @ForeignKey(() => Direccion)
   @Column({ allowNull: false, type: DataType.INTEGER })
-  dir_id: number;
+  declare dir_id: number;
 
   @BelongsTo(() => Direccion)
   direccion: Direccion;
 
   @ForeignKey(() => Sector)
   @Column({ allowNull: false, type: DataType.INTEGER })
-  sector_id: number;
+  declare sector_id: number;
 
   @BelongsTo(() => Sector)
   sector: Sector;
 
   @ForeignKey(() => Rol)
   @Column({ allowNull: false, type: DataType.INTEGER })
-  rol_id: number;
+  declare rol_id: number;
 
   @BelongsTo(() => Rol)
   rol: Rol;
 
   @Column({ allowNull: false, type: DataType.BIGINT })
-  telefono: number;
+  declare telefono: number;
 
   @Column({ allowNull: false, type: DataType.STRING })
-  nombre: string;
+  declare nombre: string;
 
   @Column({ allowNull: false, type: DataType.STRING })
-  apellido: string;
+  declare apellido: string;
 
   @Column({ allowNull: false, type: DataType.DATE })
-  fecha_nacimiento: Date;
+  declare fecha_nacimiento: Date;
 
   @Column({ allowNull: false, type: DataType.INTEGER })
-  salario: number;
+  declare salario: number;
 
   @Column({ allowNull: false, type: DataType.DATE })
-  fecha_alta: Date;
+  declare fecha_alta: Date;
 
-  @Column({ defaultValue: "No tiene", type: DataType.TEXT("long") })
-  descripcion: string;
+  @Column({ defaultValue: "No tiene", type: DataType.TEXT() })
+  declare descripcion: string;
 }

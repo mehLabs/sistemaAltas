@@ -13,10 +13,10 @@ import Empleado from "./empleado";
 export default class Rol extends Model {
   @AutoIncrement
   @Column({ primaryKey: true, type: DataType.INTEGER })
-  rol_id: number;
+  declare rol_id: number;
 
   @Column({ allowNull: false, unique: true, type: DataType.STRING })
-  rol_nombre: string;
+  declare rol_nombre: string;
 
   @HasMany(() => Empleado)
   empleados: Empleado[];

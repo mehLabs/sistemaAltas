@@ -21,7 +21,7 @@ export default class {
       const ciudades = await Ciudad.findAll();
       return { status: 200, ciudades };
     } catch (error) {
-      return { status: 500, ciudades: [], error: error };
+      return { status: 500, ciudades: undefined, error: error };
     }
   }
 

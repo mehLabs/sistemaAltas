@@ -6,9 +6,9 @@ const sectoresService = new SectoresService();
 const reset = async (req: Request, res: Response) => {};
 
 const crearSector = async (req: Request, res: Response) => {
-  const sector = await Sector.create(req.body);
+  const { sector, status } = await sectoresService.crearSector(req.body);
 
-  res.status(200).json(sector);
+  res.status(status).json(sector);
 };
 
 const init = async (req: Request, res: Response, next: NextFunction) => {

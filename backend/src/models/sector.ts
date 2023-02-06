@@ -13,10 +13,10 @@ import Empleado from "./empleado";
 export default class Sector extends Model {
   @AutoIncrement
   @Column({ primaryKey: true, type: DataType.INTEGER })
-  sector_id: number;
+  declare sector_id: number;
 
   @Column(DataType.STRING)
-  sector_nombre: string;
+  declare sector_nombre: string;
 
   @HasMany(() => Empleado)
   empleados: Empleado[];

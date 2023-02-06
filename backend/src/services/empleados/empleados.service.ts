@@ -83,7 +83,7 @@ export default class {
       return { status: 500, empleado: undefined, error: error };
     }
   }
-  async altaEmpleado(empleado: Empleado) {
+  async altaEmpleado(empleado: Empleado | any) {
     try {
       let {
         genero,
@@ -128,8 +128,6 @@ export default class {
       }
       return response;
     } catch (error) {
-      console.log("ERROR");
-      console.log(error);
       if (error instanceof ValidationError) {
         return {
           status: 400,

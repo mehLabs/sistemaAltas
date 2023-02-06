@@ -16,20 +16,20 @@ import Empleado from "./empleado";
 export default class Direccion extends Model {
   @AutoIncrement
   @Column({ primaryKey: true, type: DataType.INTEGER })
-  dir_id: number;
+  declare dir_id: number;
 
   @Column(DataType.INTEGER)
-  cod_postal: number;
+  declare cod_postal: number;
 
   @ForeignKey(() => Ciudad)
   @Column(DataType.INTEGER)
-  id_ciudad: number;
+  declare id_ciudad: number;
 
   @BelongsTo(() => Ciudad)
-  ciudad: Ciudad;
+  declare ciudad: Ciudad;
 
   @Column(DataType.STRING)
-  direccion: string;
+  declare direccion: string;
 
   @HasMany(() => Empleado)
   empleados: Empleado[];

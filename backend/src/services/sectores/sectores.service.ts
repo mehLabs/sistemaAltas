@@ -4,6 +4,7 @@ import xlsx, { WorkBook } from "xlsx";
 import Sector from "../../models/sector";
 
 export default class {
+  constructor() {}
   async reset() {
     try {
       await Sector.truncate({ cascade: true });
@@ -13,8 +14,24 @@ export default class {
     }
   }
 
+  async crearSector(newSector: any) {
+    try {
+      const sector = newSector.sector_nombre
+        ? await Sector.create(newSector)
+        : undefined;
+      const msg = "Faltan atributos";
+
+      let answer: any = { status: sector ? 200 : 400, sector };
+      if (!newSector) {
+        answer[msg] = msg;
+      }
+      return answer;
+    } catch (error) {
+      return { status: 500, msg: error };
+    }
+  }
+
   async init() {
-    console.log("init Sectores");
     try {
       const initialized = await Sector.findAll();
       if (initialized.length < 1) {
@@ -52,6 +69,7 @@ export default class {
         msg: eliminado ? "Eliminado" : "No existe ese sector",
       };
     } catch (error) {
+      console.log(error);
       return { status: 500, error };
     }
   }
