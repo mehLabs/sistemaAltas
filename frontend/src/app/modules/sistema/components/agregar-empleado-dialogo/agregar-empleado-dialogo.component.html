@@ -66,6 +66,7 @@
     <mat-step>
       <div class="flex flex-col">
         <app-agregar-domicilio
+          [dir_id]="dir_id.dir_id"
           (domicilio)="setDomicilio($event)"
         ></app-agregar-domicilio>
       </div>
@@ -76,8 +77,11 @@
         [formGroup]="roleAndSector"
         (ngSubmit)="setRolAndSector($event)"
       >
-        <app-agregar-rol [rol]="rol"></app-agregar-rol>
-        <app-agregar-sector [sector]="sector"></app-agregar-sector>
+        <app-agregar-rol [rol]="rol" [rol_id]="rol_id.rol_id"></app-agregar-rol>
+        <app-agregar-sector
+          [sector]="sector"
+          [sector_id]="sector_id.sector_id"
+        ></app-agregar-sector>
 
         <button color="primary" type="submit" mat-raised-button>
           Siguiente
@@ -105,7 +109,7 @@
             />
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <mat-label>Descripción</mat-label>
+            <mat-label>Descripción <small>(Opcional)</small></mat-label>
             <textarea
               matInput
               formControlName="descripcion"
@@ -114,7 +118,7 @@
           </mat-form-field>
 
           <button color="accent" type="submit" mat-raised-button>
-            Agregar
+            {{ edit ? "Editar" : "Agregar" }}
           </button>
         </div>
       </form>

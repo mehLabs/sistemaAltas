@@ -14,6 +14,10 @@ export class CiudadesService {
 
   constructor(private http: HttpClient) {}
 
+  getDireccion(id: number) {
+    return this.http.get<Direccion>(`${backend}/direcciones/${id}`);
+  }
+
   getProvincias(): Observable<any> {
     return this.http.get(`${backend}/ciudades/provincias`);
   }

@@ -57,6 +57,7 @@ const routes = (router: Router) => {
   /* Direcciones ***************************** */
   router.post("/direcciones", direcciones.nuevaDireccion);
   router.get("/direcciones", direcciones.getDirecciones);
+  router.get("/direcciones/:id", direcciones.getDireccion);
   router.post("/direcciones/eliminar", direcciones.eliminarDireccion);
   /* ****************************************** */
 

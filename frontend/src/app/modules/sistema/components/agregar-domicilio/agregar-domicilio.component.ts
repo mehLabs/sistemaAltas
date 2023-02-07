@@ -1,4 +1,4 @@
-import { Component, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Output, OnInit, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import Ciudad from '../../models/Ciudad';
@@ -13,6 +13,9 @@ import { CiudadesService } from '../../services/ciudades.service';
 export class AgregarDomicilioComponent implements OnInit {
   @Output() domicilio = new EventEmitter<number>();
 
+  @Input() dir_id: number | undefined;
+
+  ciudadCargado: boolean = false; //Indica que se cargó desde el backend la ciudad, a fin de que no se reinicie el campo por el metodo touchProvincia()
   constructor(private backend: CiudadesService) {}
   provincias: string[] = ['Buenos Aires', 'Río Negro'];
   ciudades: Ciudad[] = [];
@@ -20,6 +23,7 @@ export class AgregarDomicilioComponent implements OnInit {
     cod_postal: new FormControl<number | null>(null, [Validators.required]),
     id_ciudad: new FormControl<number | null>(null, [Validators.required]),
     direccion: new FormControl<string | null>(null, [Validators.required]),
+    dir_id: new FormControl<string | number | null>(null),
   });
 
   provinciasFiltradas!: Observable<string[]>;
@@ -37,6 +41,7 @@ export class AgregarDomicilioComponent implements OnInit {
     });
 
     this.provincia.valueChanges.subscribe((input) => {
+      this.touchProvincia();
       this.provincias.includes(input)
         ? this.ciudad.enable()
         : this.ciudad.disable();
@@ -53,6 +58,26 @@ export class AgregarDomicilioComponent implements OnInit {
           );
         });
     });
+
+    if (this.dir_id && !this.nuevoDomicilio.value.dir_id) {
+      this.backend
+        .getDireccion(this.dir_id)
+        .subscribe((direccion: Direccion) => {
+          this.provincia.setValue(direccion.ciudad.provincia_nombre);
+          this.ciudad.setValue(direccion.ciudad);
+          this.ciudadCargado = true;
+          this.nuevoDomicilio.get('direccion')?.setValue(direccion.direccion);
+
+          this.nuevoDomicilio.get('dir_id')?.setValue(direccion.dir_id);
+        });
+    }
+
+    this.ciudad.valueChanges.subscribe(() => {
+      this.touch();
+    });
+    this.nuevoDomicilio
+      .get('direccion')
+      ?.valueChanges.subscribe(() => this.touch());
   }
 
   private _filterProv(value: string): string[] {
@@ -79,16 +104,38 @@ export class AgregarDomicilioComponent implements OnInit {
 
     this.nuevoDomicilio.get('cod_postal')?.setValue(selectedCod_pos);
     this.nuevoDomicilio.get('id_ciudad')?.setValue(selectedId_ciudad);
-
-    this.backend
-      .nuevaDireccion(this.nuevoDomicilio.value)
-      .subscribe((domicilio: Direccion) => {
-        this.domicilio.emit(domicilio.dir_id);
+    if (this.nuevoDomicilio.valid) {
+      if (!this.nuevoDomicilio.value.dir_id) {
+        this.backend
+          .nuevaDireccion(this.nuevoDomicilio.value)
+          .subscribe((domicilio: Direccion) => {
+            this.domicilio.emit(domicilio.dir_id);
+            const next = document.getElementById('toStep3');
+            next?.click();
+          });
+      } else {
         const next = document.getElementById('toStep3');
         next?.click();
-      });
+      }
+    }
+  }
+
+  private touchProvincia() {
+    if (this.ciudadCargado) {
+      this.ciudad.setValue('');
+      this.removeDirId();
+    }
+  }
+  private touch() {
+    this.removeDirId();
+  }
+  private removeDirId() {
+    this.nuevoDomicilio.get('dir_id')?.setValue(null);
   }
 
   provincia: FormControl = new FormControl();
-  ciudad: FormControl = new FormControl({ value: '', disabled: true });
+  ciudad: FormControl = new FormControl<string | null>({
+    value: null,
+    disabled: true,
+  });
 }
