@@ -440,9 +440,11 @@ El sistema puede ser utilizado por project managers que tienen varios equipos y 
 - 1- Rol: Ingrese el rol del empleado, ya sea programador o no programador.
 
 ![Rol](./docs/6.png)
+
 Nota: En caso de no existir rol/sector, se creará uno.
 
 ![Sector](./docs/7.png)
+
 Nota: En caso de sí existir el sector/rol, se desplegará una lista con los sectores/roles más similares.
 
 ### Alta de empleado - Parte 4
