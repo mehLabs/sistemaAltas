@@ -395,13 +395,13 @@ El sistema puede ser utilizado por project managers que tienen varios equipos y 
 
 ### Bienvenida
 
-[Welcome](./docs/1.png)
+![Welcome](./docs/1.png)
 
 - 1- Para empezar a usar el sistema, presione el botón "Empezar".
 
 ### Grilla de empleados
 
-[Tabla](./docs/2.png)
+![Tabla](./docs/2.png)
 
 - 1- Esta es la lista de empleados ya dados de alta, con sus respectivas columnas.
 - 2- Botón eliminar: Al presionarlo, se elimina la fila con su empleado. Nota: el empleado no se elimina de la base de datos, sólo cambia de estado a "dado de baja", en futuras versiones se podrán ver todos los empleados dados de baja.
@@ -412,7 +412,7 @@ El sistema puede ser utilizado por project managers que tienen varios equipos y 
 
 ### Alta de empleado - Parte 1
 
-[Parte 1](./docs/3.png)
+![Parte 1](./docs/3.png)
 
 - 1- Paso 1: Datos básicos (Usted está aquí).
 - 2- Paso 2: Ubicación.
@@ -427,7 +427,7 @@ El sistema puede ser utilizado por project managers que tienen varios equipos y 
 
 ### Alta de empleado - Parte 2
 
-[Parte 2](./docs/4.png)
+![Parte 2](./docs/4.png)
 
 - 1- Provincia: Seleccione una de las 23 provincias. Nota: Sólo podrá seleccionar una de esas.
 - 2- Ciudad: Este campo sólo se activa al seleccionar una de las 23 provincias válidas. Una vez activo, ingrese 3 letras de la ciudad deseada y visualizará una lista con las ciudades de esa provincia que coincidan con el texto ingresado. NOTA: CP es código postal.
@@ -435,19 +435,19 @@ El sistema puede ser utilizado por project managers que tienen varios equipos y 
 
 ### Alta de empleado - Parte 3
 
-[Parte 3](./docs/5.png)
+![Parte 3](./docs/5.png)
 
 - 1- Rol: Ingrese el rol del empleado, ya sea programador o no programador.
 
-[Rol](./docs/6.png)
+![Rol](./docs/6.png)
 Nota: En caso de no existir rol/sector, se creará uno.
 
-[Sector](./docs/7.png)
+![Sector](./docs/7.png)
 Nota: En caso de sí existir el sector/rol, se desplegará una lista con los sectores/roles más similares.
 
 ### Alta de empleado - Parte 4
 
-[Parte 4](./docs/8.png)
+![Parte 4](./docs/8.png)
 
 - 1- Salario: Sólo acepta números sin decimales.
 - 2- Descripción: En caso de no ingresar ninguna, el valor por defecto es "no tiene" (descripción).
