@@ -9,10 +9,11 @@ import { ServerControlService } from '../../services/server-control.service';
 export class ServerControlComponent {
   constructor(private backend: ServerControlService) {}
   init() {
-    this.backend.init().subscribe((msg) => {});
-    setTimeout(() => {
+    this.backend.init().subscribe((msg) => {
+      console.log(msg);
+
       location.reload();
-    }, 2000);
+    });
   }
 
   reset() {

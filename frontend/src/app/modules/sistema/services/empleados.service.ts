@@ -12,9 +12,13 @@ export class EmpleadosService {
   empleados: BehaviorSubject<Empleado[]> = new BehaviorSubject<Empleado[]>([]);
 
   constructor(private http: HttpClient) {
-    http
-      .get(`${backend}/empleados`)
-      .subscribe((empleados: any) => this.empleados.next(empleados));
+    http.get<Empleado[]>(`${backend}/empleados`).subscribe({
+      next: (empleados: any) => {
+        this.empleados.next(empleados);
+        console.log('Conección backend OK');
+      },
+      error: (error) => console.error(error),
+    });
   }
 
   eliminarEmpleado(empleado: Empleado) {

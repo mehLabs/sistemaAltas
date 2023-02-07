@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import sequelize from "../models/db/db";
 import {
   empleados,
@@ -16,12 +16,18 @@ const routes = (router: Router) => {
   /* Inicializar base de datos con datos de ejemplos */
   router.post(
     "/init",
+    (req: Request, res: Response, next: NextFunction) => {
+      res.write('{"result": "');
+      next();
+    },
     sectores.init,
     ciudades.init,
     direcciones.init,
     roles.init,
     empleados.init,
     (req: Request, res: Response) => {
+      res.statusCode = 200;
+      res.write('"}');
       res.end();
     }
   );
