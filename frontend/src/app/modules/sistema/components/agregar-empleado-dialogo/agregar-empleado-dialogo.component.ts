@@ -20,6 +20,7 @@ interface DataEmpleado {
 export class AgregarEmpleadoDialogoComponent {
   edit: boolean = false;
   em_id: number | undefined;
+
   constructor(
     public dialogRef: MatDialogRef<AgregarEmpleadoDialogoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DataEmpleado,
@@ -56,7 +57,15 @@ export class AgregarEmpleadoDialogoComponent {
         fecha_alta,
         descripcion,
       });
+      this.sector_id.sector_id = sector_id;
+      this.dir_id.dir_id = dir_id;
+      this.rol_id.rol_id = rol_id;
       this.em_id = em_id;
+
+      this.salario.setValue({
+        salario: salario,
+        descripcion: descripcion,
+      });
     }
   }
   nuevoEmpleado = new FormGroup({
@@ -93,14 +102,13 @@ export class AgregarEmpleadoDialogoComponent {
   salario = new FormGroup({
     salario: new FormControl<number | null>(null, [Validators.required]),
     descripcion: new FormControl<string | null>(null, [
-      Validators.required,
-      Validators.minLength(2),
+      Validators.minLength(6),
     ]),
   });
 
-  rol_id = { rol_id: null };
-  sector_id = { sector_id: null };
-  dir_id = { dir_id: null };
+  rol_id: any = { rol_id: null };
+  sector_id: any = { sector_id: null };
+  dir_id: any = { dir_id: null };
 
   ngSubmit() {
     if (this.nuevoEmpleado.valid) {
@@ -187,13 +195,16 @@ export class AgregarEmpleadoDialogoComponent {
   }
 
   setSalarioAndFinish() {
-    const salario: number = this.salario.get('salario')?.value || 0;
-    this.nuevoEmpleado.get('salario')?.setValue(salario);
+    if (this.salario.valid) {
+      const salario: number = this.salario.get('salario')?.value || 0;
+      this.nuevoEmpleado.get('salario')?.setValue(salario);
 
-    const descripcion: string =
-      this.salario.get('descripcion')?.value || 'No posee';
-    this.nuevoEmpleado.get('descripcion')?.setValue(descripcion);
-    this.ngSubmit();
+      const descripcion: string =
+        this.salario.get('descripcion')?.value || 'No posee';
+      this.nuevoEmpleado.get('descripcion')?.setValue(descripcion);
+
+      this.ngSubmit();
+    }
   }
   rol = new FormControl<any | string>('');
   sector = new FormControl<any | string>('');

@@ -16,6 +16,11 @@ firebase.json
 npm-debug.log
 yarn-error.log
 
+# Firebase
+/.firebase
+.firebaserc
+firebase.json
+
 # IDEs and editors
 .idea/
 .project

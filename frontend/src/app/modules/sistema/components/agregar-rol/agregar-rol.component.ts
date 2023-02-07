@@ -12,7 +12,8 @@ import { RolesService } from '../../services/roles.service';
 export class AgregarRolComponent implements OnInit {
   constructor(private backend: RolesService) {}
   roles: Rol[] = [];
-  @Input() rol: FormControl = new FormControl<Rol | string>('');
+  @Input() rol: FormControl = new FormControl<Rol | string | number>('');
+  @Input() rol_id: number | undefined;
   rolesFiltrados!: Observable<Rol[]>;
 
   ngOnInit(): void {
@@ -22,6 +23,13 @@ export class AgregarRolComponent implements OnInit {
         startWith(''),
         map((value) => (value.length >= 0 ? this._filterRol(value || '') : []))
       );
+      if (this.rol_id) {
+        const rolObj: Rol | undefined = this.roles.find(
+          (rol) => rol.rol_id === this.rol_id
+        );
+        this._filterRol(rolObj?.rol_nombre || '');
+        this.rol.setValue(rolObj);
+      }
     });
   }
 

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { readFileSync } from "fs";
 import path from "path";
 import xlsx, { WorkBook } from "xlsx";
+import Ciudad from "../../models/ciudad";
 import Direccion from "../../models/direccion";
 
 export default class {
@@ -18,6 +19,14 @@ export default class {
     try {
       const direcciones = await Direccion.findAll();
       return { status: 200, direcciones };
+    } catch (error) {
+      return { status: 500, error };
+    }
+  }
+  async getDireccion(id: number) {
+    try {
+      const direccion = await Direccion.findByPk(id, { include: [Ciudad] });
+      return { status: direccion ? 200 : 400, direccion };
     } catch (error) {
       return { status: 500, error };
     }

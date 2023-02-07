@@ -13,6 +13,7 @@ export class AgregarSectorComponent {
   constructor(private backend: SectoresService) {}
   sectores: Sector[] = [];
   @Input() sector: FormControl = new FormControl<Sector | string>('');
+  @Input() sector_id: number | undefined;
   sectoresFiltrados!: Observable<Sector[]>;
 
   ngOnInit(): void {
@@ -24,6 +25,15 @@ export class AgregarSectorComponent {
         )
       );
       this.sectores = sectores;
+      if (this.sector_id) {
+        console.log(this.sector_id);
+        const sectorIn = sectores.find(
+          (sector) => sector.sector_id === this.sector_id
+        );
+        console.log(sectorIn);
+        this._filterSector(sectorIn?.sector_nombre || '');
+        this.sector.setValue(sectorIn);
+      }
     });
   }
 
