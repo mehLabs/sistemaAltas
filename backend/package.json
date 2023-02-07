@@ -5,7 +5,7 @@
   "main": "src/server/index.ts",
   "scripts": {
     "test:unit": "cross-env ENV_FILE=./config/.env.test jest --runInBand --detectOpenHandles --verbose",
-    "build": "tsc -p .",
+    "build": "npm run resources && tsc -p .",
     "resources": "copyfiles *.xlsx -u 2 src/resources/*.xlsx dist/resources/",
     "start:dev": "concurrently \"npx tsc --watch\" \"npm run resources && nodemon -q dist/server/index.js\"",
     "start": "npm run build && node dist/server/index.js",
