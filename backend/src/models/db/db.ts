@@ -7,10 +7,10 @@ import Sector from "../sector";
 import { CiudadesService } from "../../services/index.service";
 
 const sequelize = new Sequelize({
-  database: "empleados",
+  database: process.env.PSQL_DATABASE || "empleados",
   dialect: "postgres",
-  username: "postgres",
-  password: "12345",
+  username: process.env.PSQL_USERNAME || "postgres",
+  password: process.env.PSQL_PASSWORD || "12345",
   host: process.env.PSQL_HOST || "localhost",
   port: 5432,
   storage: ":memory",
