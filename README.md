@@ -454,3 +454,90 @@ Nota: En caso de sí existir el sector/rol, se desplegará una lista con los sec
 - 1- Salario: Sólo acepta números sin decimales.
 - 2- Descripción: En caso de no ingresar ninguna, el valor por defecto es "no tiene" (descripción).
 - 3- Si todos los campos fueron llenados correctamente, el empleado se agregará al sistema instantáneamente.
+
+# Base de datos
+
+## Descripción de la base de datos:
+
+A fin de almacenar cada empleado registrado en el sistema, se utilizará una base de datos relacional (POSTGRESQL), con un ORM para ahorrar tiempo (Sequelize).
+
+La base de datos contiene las siguientes tablas y campos:
+
+1. Empleado
+* em_id (PK)
+* nombre
+* apellido
+* genero
+* alta
+* dir_id (FK)
+* sector_id (FK)
+* rol_id (FK)
+* telefono
+* fecha_nacimiento
+* salario
+* fecha_alta
+* descripcion
+2. Direccion
+* dir_id (PK)
+* cod_postal
+* id_ciudad (FK)
+3. Ciudad
+* id_ciudad (PK)
+* cod_postal
+* ciudad_nombre
+* provincia_nombre
+4. Sector
+* sector_id (PK)
+* sector_nombre
+5. Rol
+* rol_id (PK)
+* rol_nombre
+
+Empleado tiene una relación ManyToOne con Dirección, Sector y Rol. Ya que un empleado puede tener sólo una dirección, un sector y un rol, pero un sector puede ser compartido con muchos empleados y lo mismo el rol, incluso la dirección.
+
+Dirección tiene una relación ManyToOne con Ciudad, ya que una ciudad contiene muchas direcciones, pero una dirección debe pertenecer sólo a una ciudad.
+
+La base de datos inicializa la tabla ciudades a partir de un archivo .xlsx, que demora un poco debido a la gran cantidad de ciudades que existen en Argentina. Cabe mencionar que no hay problemas de performance luego de inicializar la tabla.
+
+## DER
+
+![DER](./docs/DER.png)
+
+# Estimación de tiempo
+
+1. Diseño
+* Arquitectura (30 mins)
+* DER (45 mins)
+* Frontend (45 mins)
+* Tests (2 horas)
+
+2. Desarrollo
+* Base de datos (1 hora)
+* Backend (2,5 horas)
+  * Inicializar(2 horas)
+  * CRUD (30 mins)
+* Frontend (6,5 horas)
+  * UI (2,5 horas)
+  * Servicios (4 horas)
+
+3. Testing
+* Aprender (4 horas)
+* Pruebas unitarias backend (3 horas)
+
+4. Documentación
+* Dependencias (1 hora)
+* Aprender Docker (2 horas)
+* Preparar entorno docker-compose (3 horas)
+* Endpoints (1 hora)
+* Instrucciones para levantar el proyecto (2 horas)
+* Base de datos (1 hora)
+
+### Total = 31 horas.
+
+## Reporte de mi uso del tiempo:
+* Días efectivos trabajados: 15
+* Promedio de tiempo diario: 2 horas, 52 minutos, 20 segundos.
+* Tiempo total trabajado: 43 horas, 12 minutos.
+* Método de conteo de tiempo:
+  * [Excel con tarjetas](./docs/tiempo.xlsx) 
+
