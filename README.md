@@ -11,6 +11,8 @@
 7. [Testear](#testear)
 8. [Documentación backend](#documentación-backend)
 9. [Documentación frontend](#documentación-frontend)
+10. [Base de datos](#base-de-datos)
+11. [Estimaciones de tiempo](estimacion-de-tiempo)
 
 ## Descripción
 
