@@ -111,6 +111,7 @@ export class AgregarEmpleadoDialogoComponent {
       }
       this.dialogRef.close();
     } else {
+      console.error(this.nuevoEmpleado.value);
       alert('Faltan campos!!!');
     }
   }
